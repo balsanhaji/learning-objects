@@ -78,14 +78,6 @@ function menuCalendar(d) {
 			gridCalendar(d,i);
 		});
 	}
-
-	// if($('#chMonth'+newMonth).data('clicked')) {
-	// 	console.log(newMonth);
-	// 	gridCalendar(d,newMonth);
-	// }
-	// else {
-	// 	gridCalendar(d,d.getMonth());
-	// }
 }
 
 function gridCalendar(d,getMonth) {
@@ -104,7 +96,7 @@ function gridCalendar(d,getMonth) {
 
 	var firstDay = new Date(d.getFullYear(), getMonth, 1);
 	var lastDay = new Date(d.getFullYear(), getMonth+1, 0);
-	var k = firstDay.getDay();
+	var k = (firstDay.getDay() == 0) ? 7 : firstDay.getDay();
 
 	var	grid = '<table class="calendar"><thead><tr>';
 		for(var i=0; i<7 ;i++) {
@@ -115,9 +107,9 @@ function gridCalendar(d,getMonth) {
 		}
 		grid += '</tr></thead><tbody>';
 
-		for(var i=0; i<5 ;i++) {
+		console.log(k);
+		for(var i=0; i<6 ;i++) {
 			grid += '<tr>';
-			console.log('!'+k);
 			for(var j=1; j<8 && n<=lastDay.getDate() ;j++) {
 				if(j>=k) {
 					if(n == tdDay && getMonth == d.getMonth())
@@ -127,10 +119,10 @@ function gridCalendar(d,getMonth) {
 					n++;
 				}
 				else
-					grid += '<td></td>';
+					grid += '<td class="blank"></td>';
 			}
 			grid += '</tr>';
-			k = 0;
+			k = 1;
 		}
 		grid += '</tbody></table>';
 

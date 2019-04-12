@@ -23,6 +23,5 @@ echo '{"users":[ ';
 	}
 echo ']}';
 
-
 $req->closeCursor();
 ?>

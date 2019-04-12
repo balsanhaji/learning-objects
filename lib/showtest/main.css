@@ -39,6 +39,10 @@ body {
 	background-color: #ddd;
 }
 
+#calendar .calendar .blank {
+	background-color: #fff;
+}
+
 
 
 #calendar .calendar td {

@@ -1,0 +1,50 @@
+body {
+	background: #b3bae0;
+}
+
+#calendar .menu {
+	width: 80%;
+	margin: 5em auto;
+}
+
+#calendar .menu .lig-month {
+	display: flex;
+	flex-wrap: wrap;
+	background-color: #eee;
+	border: 1px solid #fff;
+	font-weight: bold;
+}
+
+#calendar .menu .col-month {
+	width: 25%;
+	border: 1px solid #fff;
+}
+
+#calendar .calendar {
+	width: 80%;
+	margin: 5em auto;
+	background-color: #fff;
+}
+
+#calendar .calendar th {
+	text-align: center;
+	text-transform: uppercase;
+}
+
+#calendar .calendar .thistxt, #calendar .menu .thistxt {
+	color:red;
+}
+
+#calendar .calendar .thisbg, #calendar .menu .thisbg {
+	background-color: #ddd;
+}
+
+
+
+#calendar .calendar td {
+	width: calc(80% / 7);
+	height: 50px;
+	border: 1px solid #fff;
+	background-color: #eee;
+	padding: 5px;
+}

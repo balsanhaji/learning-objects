@@ -2,6 +2,12 @@ body {
 	background: #b3bae0;
 }
 
+#calendar .error {
+	margin: 1rem 0 0 5rem;
+	color: #c21c1c;
+	font-size: 12px;
+}
+
 #calendar .menu {
 	width: 80%;
 	margin: 5em auto;
@@ -18,6 +24,12 @@ body {
 #calendar .menu .col-month {
 	width: 25%;
 	border: 1px solid #fff;
+	cursor: pointer;
+}
+
+#calendar .menu .col-month:hover {
+	background-color: #ddd;
+	text-decoration:underline;
 }
 
 #calendar .calendar {
@@ -43,12 +55,15 @@ body {
 	background-color: #fff;
 }
 
-
-
 #calendar .calendar td {
 	width: calc(80% / 7);
-	height: 50px;
 	border: 1px solid #fff;
 	background-color: #eee;
 	padding: 5px;
+}
+
+#calendar .calendar td .nbday {
+	display: block;
+	font-size: smaller;
+	margin-bottom: 20px;
 }

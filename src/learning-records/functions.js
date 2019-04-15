@@ -31,15 +31,35 @@ function userList() {
 	});
 }
 
-
 /* Calendar */
 function searchUser() {
-	var searchUser = '<div class="input-group col-xs-4">';
+	var searchUser = '<div class="input-group col-xs-5">';
 		searchUser += ' <span class="input-group-addon">@</span>';
-		searchUser += '<input type="text" class="form-control" placeholder="Type a nickname to see its progress">';
-		searchUser += '</div><hr/>';
+		searchUser += '<input type="text" id="getUser" class="form-control" placeholder="Type a nickname and press Enter to see its progress">';
+		searchUser += '</div>';
+		searchUser += '<div class="error"></div><hr/>';
 
 	$("#show #calendar").append(searchUser);
+}
+
+function getUser() {
+	$('#getUser').on('input',function(e) {
+		var username = $('#getUser').val();
+		$.ajax({
+			type:"GET",
+			url: "./src/learning-records/results.php?q="+username,
+			success: function (userInfo) {
+				if(userInfo == 'error') {
+					$("#calendar .calendar td #userdatas").empty();
+					$(".error").text('Username must be at least 3 characters.');
+				}
+				else {
+					$(".error").empty();
+					$("#calendar .calendar td #userdatas").text(userInfo);
+				}
+			}
+		});
+	});
 }
 
 function menuCalendar(d) {
@@ -113,9 +133,17 @@ function gridCalendar(d,getMonth) {
 			for(var j=1; j<8 && n<=lastDay.getDate() ;j++) {
 				if(j>=k) {
 					if(n == tdDay && getMonth == d.getMonth())
-						grid += '<td class="thisbg">Col '+n+'</td>';
+						grid += '<td class="thisbg">';
 					else
-						grid += '<td>Col '+n+'</td>';
+						grid += '<td>';
+
+					grid += '<span class="nbday">'+n+'</span>';
+					
+					grid += '<div id="userdatas">';
+						getUser();
+					grid += '</div>';
+
+					grid += '</td>';
 					n++;
 				}
 				else
@@ -132,14 +160,14 @@ function gridCalendar(d,getMonth) {
 function calendar() {
 	var d = new Date();
 
-	function titleCalendar() { $("#show > #calendar").append('<h1>Calendar</h1>') };
+	function titleCalendar() { $("#show > #calendar").append('<h1>'+d.getFullYear()+' Calendar</h1>') };
 
 	$('#show').empty();
 	$('#show').append('<div id="calendar"></div>');
 
 	searchUser();
 	titleCalendar();
-	menuCalendar(d);
 
+	menuCalendar(d);
 	gridCalendar(d,d.getMonth());
 }

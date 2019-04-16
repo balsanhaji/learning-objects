@@ -13,7 +13,7 @@ if(!isset($_GET['q'])) {
 
 	echo '{"users":[ ';
 		while($datas = $req->fetch()) {
-			echo '{"id": '.$i.',';			
+			echo '{"id": '.$i.',';
 			echo '"nickName": "'.$datas['nickName'].'"}';
 
 			if($i < $req->rowCount())
@@ -26,22 +26,24 @@ if(!isset($_GET['q'])) {
 	$req->closeCursor();
 }
 else {
-	$query = $_GET['q'];
+	$username = $_GET['q'];
+	$i = 1;
 
-	$arr = array();
-	$min_length = 3;
+	$raw_results = $bdd->query("SELECT * FROM learning_records WHERE nickName LIKE '".$username."'");
 
-	if(strlen($query) >= $min_length) {
-		$raw_results = $bdd->query("SELECT * FROM learning_records WHERE nickName LIKE '%".$query."%'");
+	if($raw_results->rowCount() > 0) {
+		echo '{"records":[ ';
+			while($results = $raw_results->fetch()) {
+				// echo '{"year": '.date("Y", strtotime($results['date'])).',';
+				echo '{"day": '.date("j", strtotime($results['date'])).',';
+				echo '"month": '.date("n", strtotime($results['date'])).'}';
 
-		if($raw_results->rowCount() > 0) {
-			while($results = $raw_results->fetch())
-				echo date("Y/m/d", strtotime($results['date']));
-		}
-		else
-			echo "No results";
+				if($i < $raw_results->rowCount())
+					echo ',';
+
+				$i++;
+			}
+		echo ']}';
 	}
-	else
-		echo 'error';
 }
 ?>

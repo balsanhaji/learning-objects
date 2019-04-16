@@ -14,7 +14,7 @@ $(function() {
 	);
 	$(".navbar-nav li:nth-child(3) ul li:first a").click(
 		function() {
-			searchUser();
+			// searchUser();
 			calendar();
 		}
 	);

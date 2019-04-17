@@ -34,6 +34,30 @@ function userList() {
 /* Calendar */
 function calendar() {
 	var d = new Date();
+	var thisMonth = d.getMonth();
+
+	var day = new Array();
+		day[0] = "Monday";
+		day[1] = "Tuesday";
+		day[2] = "Wednesday";
+		day[3] = "Thursday";
+		day[4] = "Friday";
+		day[5] = "Saturday";
+		day[6] = "Sunday";
+
+	var month = new Array();
+		month[0] = "January";
+		month[1] = "February";
+		month[2] = "March";
+		month[3] = "April";
+		month[4] = "May";
+		month[5] = "June";
+		month[6] = "July";
+		month[7] = "August";
+		month[8] = "September";
+		month[9] = "October";
+		month[10] = "November";
+		month[11] = "December";
 
 	function titleCalendar() { $("#show #calendar").append('<h1>'+d.getFullYear()+' Calendar</h1>') };
 
@@ -49,7 +73,7 @@ function calendar() {
 			searchUser += '</div>';
 			searchUser += '<div class="error"></div><hr/>';
 
-		getUsersList(d.getMonth());
+		getUsersList(thisMonth);
 
 		$("#show #calendar").append(searchUser);
 	}
@@ -61,7 +85,6 @@ function calendar() {
 				xhr.overrideMimeType("text/plain; charset=x-user-defined");
 			},
 			success: function(userList) {
-				console.log(userList);
 				var show = JSON.parse(userList);
 				var usersArray = new Array();
 
@@ -90,26 +113,40 @@ function calendar() {
 				dataType:"json",
 				url: "./src/learning-records/results.php?q="+username,
 				success: function(userInfo) {
-					console.log('?'+userInfo);
 					var record = userInfo;
-					var month = new Array();
-					var day = new Array();
+					var r_year = [], r_month = [], r_day = [], r_answer = [], r_result = [];
 
 					$.each(record.records, function() {
 						$.each(this, function(k, v) {
+							if(k == 'year')
+								r_year.push(v);
 							if(k == 'month')
-								month.push(v);
+								r_month.push(v);
 							if(k == 'day')
-								day.push(v);
+								r_day.push(v);
+							if(k == 'answer')
+								r_answer.push(v);
+							if(k == 'result')
+								r_result.push(v);
 						});
 					});
 
 					$('#calendar .calendar').hide();
 					
+					console.log('r_result: '+r_result.length);
 					gridCalendar(getMonth);
-					$.each(month, function(i, item) {
-						if((month[i]-1) == getMonth)
-							$('#calendar .calendar #userdatas'+day[i]).html('HA');
+					$.each(r_month, function(i, item) {
+						if((item-1) == getMonth) {
+							// for(var j=0; j < r_result.length; j++) {
+								var dis = '<p><a class="seer'+i+'">See the results</a></p>';
+								$('#calendar .calendar #userdatas'+r_day[i]).append(dis);
+								console.log('i'+i);
+								$('.seer'+i).click(function() {
+									var al = 'Result: '+r_result[i]+'\n\nAnswer: \n'+r_answer[i];
+									alert(al);
+								});
+							// }
+						}
 					});
 				}
 			});
@@ -117,24 +154,10 @@ function calendar() {
 	}
 
 	function menuCalendar() {
-		var month = new Array();
-			month[0] = "January";
-			month[1] = "February";
-			month[2] = "March";
-			month[3] = "April";
-			month[4] = "May";
-			month[5] = "June";
-			month[6] = "July";
-			month[7] = "August";
-			month[8] = "September";
-			month[9] = "October";
-			month[10] = "November";
-			month[11] = "December";
-
 		var menu = '<div id="menu" class="menu">';
 				menu += '<div id="lm" class="lig-month">';
 				for(let i=0; i<12 ;i++) {
-					if(i == d.getMonth())
+					if(i == thisMonth)
 						menu += '<div id="chMonth'+i+'" class="col-month col-md-1 thistxt thisbg">'+month[i]+'</div>';
 					else
 						menu += '<div id="chMonth'+i+'" class="col-month col-md-1">'+month[i]+'</div>';
@@ -144,8 +167,6 @@ function calendar() {
 
 		$("#show #calendar").append(menu);
 
-		var newMonth;
-
 		for(let i=0; i<12 ;i++) {
 			$('#chMonth'+i).click(function() {
 				$('#calendar .calendar').hide();
@@ -153,22 +174,12 @@ function calendar() {
 				if($('#getUser').val() === '')
 					gridCalendar(i);
 				else
-					getUsersList(i);
+					usersDatas(i);
 			});
 		}
 	}
 
 	function gridCalendar(getMonth) {
-		console.log('&'+getMonth);
-		var day = new Array();
-			day[0] = "Monday";
-			day[1] = "Tuesday";
-			day[2] = "Wednesday";
-			day[3] = "Thursday";
-			day[4] = "Friday";
-			day[5] = "Saturday";
-			day[6] = "Sunday";
-
 		var n = 1;
 		var thDay = d.getDay()-1;
 		var tdDay = d.getDate();
@@ -179,19 +190,19 @@ function calendar() {
 
 		var	grid = '<table class="calendar"><thead><tr>';
 			for(var i=0; i<7 ;i++) {
-				if(i == thDay && getMonth == d.getMonth())
+				if(i == thDay && getMonth == thisMonth)
 					grid += '<th scope="col" class="thistxt">'+day[i]+'</th>';
 				else
 					grid += '<th scope="col">'+day[i]+'</th>';
 			}
 			grid += '</tr></thead><tbody>';
 
-			console.log(k);
+			// console.log(k);
 			for(var i=0; i<6 ;i++) {
 				grid += '<tr>';
 				for(var j=1; j<8 && n<=lastDay.getDate() ;j++) {
 					if(j>=k) {
-						if(n == tdDay && getMonth == d.getMonth())
+						if(n == tdDay && getMonth == thisMonth)
 							grid += '<td class="thisbg">';
 						else
 							grid += '<td>';
@@ -215,6 +226,5 @@ function calendar() {
 	titleCalendar();
 
 	menuCalendar();
-	gridCalendar(d.getMonth());
-
+	gridCalendar(thisMonth);
 }

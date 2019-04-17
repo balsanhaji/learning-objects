@@ -2,6 +2,10 @@ body {
 	background: #b3bae0;
 }
 
+a {
+	cursor: pointer;
+}
+
 #calendar .error {
 	margin: 1rem 0 0 5rem;
 	color: #c21c1c;
@@ -10,7 +14,7 @@ body {
 
 #calendar .menu {
 	width: 80%;
-	margin: 5em auto;
+	margin: 5em auto 2em auto;
 }
 
 #calendar .menu .lig-month {
@@ -32,9 +36,22 @@ body {
 	text-decoration:underline;
 }
 
+#calendar .changeMonth {
+	width: 80%;
+	margin: auto;
+	text-align: center;
+	font-size: 1.5rem;
+	text-transform: uppercase;
+}
+
+#calendar .changeMonth #pvsMonth, #calendar .changeMonth #nxtMonth {
+	display: inline-block;
+	cursor: pointer;
+}
+
 #calendar .calendar {
 	width: 80%;
-	margin: 5em auto;
+	margin: 2em auto 0 auto;
 	background-color: #fff;
 }
 
@@ -60,6 +77,7 @@ body {
 	border: 1px solid #fff;
 	background-color: #eee;
 	padding: 5px;
+	vertical-align: top;
 }
 
 #calendar .calendar td .nbday {

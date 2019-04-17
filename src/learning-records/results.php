@@ -34,9 +34,11 @@ else {
 	if($raw_results->rowCount() > 0) {
 		echo '{"records":[ ';
 			while($results = $raw_results->fetch()) {
-				// echo '{"year": '.date("Y", strtotime($results['date'])).',';
-				echo '{"day": '.date("j", strtotime($results['date'])).',';
-				echo '"month": '.date("n", strtotime($results['date'])).'}';
+				echo '{"year": '.date("Y", strtotime($results['date'])).',';
+				echo '"day": '.date("j", strtotime($results['date'])).',';
+				echo '"month": '.date("n", strtotime($results['date'])).',';
+				echo '"answer": "'.$results['answer'].'",';
+				echo '"result": '.$results['result'].'}';
 
 				if($i < $raw_results->rowCount())
 					echo ',';

@@ -1,36 +1,3 @@
-/* List of Users:learning_records */
-function userList() {
-	$('#show').empty();
-	$('#show').append('<div id="usersList"></div>');
-
-	$.ajax({
-		url: "./src/learning-records/results.php",
-		beforeSend: function(xhr) {
-			xhr.overrideMimeType("text/plain; charset=x-user-defined");
-		},
-		success: function(data) {
-			var table = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">nickName</th></tr></thead><tbody>';
-			var show = JSON.parse(data);
-			
-			$.each(show.users, function() {
-				table += '<tr>';
-				
-				$.each(this, function(k, v) {
-					if(k == 'id')
-						table += '<th scope="row">'+v+'</th>';
-					else
-						table += '<td>'+v+'</td>';
-				});
-				
-				table += '</tr>';
-			});
-			table += '</tbody></table>';
-
-			$('#show #usersList').append(table);
-		}
-	});
-}
-
 /* Calendar */
 function calendar() {
 	var d = new Date();
@@ -133,14 +100,14 @@ function calendar() {
 
 					$('#calendar .calendar').hide();
 					
-					console.log('r_result: '+r_result.length);
+					// console.log('r_result: '+r_result.length);
 					gridCalendar(getMonth);
 					$.each(r_month, function(i, item) {
 						if((item-1) == getMonth) {
 							// for(var j=0; j < r_result.length; j++) {
 								var dis = '<p><a class="seer'+i+'">See the results</a></p>';
 								$('#calendar .calendar #userdatas'+r_day[i]).append(dis);
-								console.log('i'+i);
+								// console.log('i'+i);
 								$('.seer'+i).click(function() {
 									var al = 'Result: '+r_result[i]+'\n\nAnswer: \n'+r_answer[i];
 									alert(al);
@@ -170,13 +137,56 @@ function calendar() {
 		for(let i=0; i<12 ;i++) {
 			$('#chMonth'+i).click(function() {
 				$('#calendar .calendar').hide();
+				$('#calendar .pagination').hide();
 
+				pagination(i);
+				
 				if($('#getUser').val() === '')
 					gridCalendar(i);
 				else
 					usersDatas(i);
 			});
 		}
+	}
+
+	function pagination(getMonth) {
+		var pre = getMonth;
+
+		var page = '<div id="pagination" class="row pagination">';
+			page += '<div class="col-md-4 previous"><</div>';
+			page += ' <span class="col-md-4">'+month[pre]+'</span> ';
+			page += '<div class="col-md-4 next">></div>';
+			page += '</div>';
+
+		$('#show #calendar').append(page);
+
+		$('#pagination .previous').on('click', function() {
+			if(pre > 0) {
+				$('#pagination span').text(month[--pre]);
+
+				$('#calendar .calendar').hide();
+
+				if($('#getUser').val() === '')
+					gridCalendar(pre);
+				else
+					usersDatas(pre);
+				console.log(pre);
+			}
+		});
+
+		$('#pagination .next').on('click', function() {
+			if(pre < 11) {
+				$('#pagination span').text(month[++pre]);
+
+				$('#calendar .calendar').hide();
+
+				if($('#getUser').val() === '')
+					gridCalendar(pre);
+				else
+					usersDatas(pre);
+				console.log(':'+pre);
+			}
+		});
 	}
 
 	function gridCalendar(getMonth) {
@@ -226,5 +236,6 @@ function calendar() {
 	titleCalendar();
 
 	menuCalendar();
+	pagination(thisMonth);
 	gridCalendar(thisMonth);
 }

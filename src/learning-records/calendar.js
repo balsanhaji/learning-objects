@@ -33,6 +33,7 @@ function calendar() {
 
 	/* functions */
 
+	/* Display the search input field and call the getUsersList function */
 	function searchUser() {
 		var searchUser = '<div class="input-group col-xs-5">';
 			searchUser += '<span class="input-group-addon">@</span>';
@@ -45,14 +46,17 @@ function calendar() {
 		$("#show #calendar").append(searchUser);
 	}
 
+	/*
+		parameter: getMonth - current month
+		Display the users list with the autocomplete function and call the usersDatas function
+	*/
 	function getUsersList(getMonth) {
 		$.ajax({
+			type:"GET",
+			dataType:"json",
 			url: "./src/learning-records/results.php",
-			beforeSend: function(xhr) {
-				xhr.overrideMimeType("text/plain; charset=x-user-defined");
-			},
 			success: function(userList) {
-				var show = JSON.parse(userList);
+				var show = userList;
 				var usersArray = new Array();
 
 				$.each(show.users, function() {				
@@ -71,6 +75,10 @@ function calendar() {
 		});
 	}
 
+	/*
+		parameter: getMonth - current month
+		Display the results of the selected user in the calendar
+	*/
 	function usersDatas(getMonth) {
 		$('#getUser').on('autocompletechange change', function() {
 			var username = this.value;
@@ -104,15 +112,13 @@ function calendar() {
 					gridCalendar(getMonth);
 					$.each(r_month, function(i, item) {
 						if((item-1) == getMonth) {
-							// for(var j=0; j < r_result.length; j++) {
-								var dis = '<p><a class="seer'+i+'">See the results</a></p>';
-								$('#calendar .calendar #userdatas'+r_day[i]).append(dis);
-								// console.log('i'+i);
-								$('.seer'+i).click(function() {
-									var al = 'Result: '+r_result[i]+'\n\nAnswer: \n'+r_answer[i];
-									alert(al);
-								});
-							// }
+							var dis = '<p><a class="seer'+i+'">See the results</a></p>';
+							$('#calendar .calendar #userdatas'+r_day[i]).append(dis);
+							// console.log('i'+i);
+							$('.seer'+i).click(function() {
+								var al = 'Result: '+r_result[i]+'\n\nAnswer: \n'+r_answer[i];
+								alert(al);
+							});
 						}
 					});
 				}
@@ -120,12 +126,14 @@ function calendar() {
 		}).change();
 	}
 
+	/* Display all the months */
 	function menuCalendar() {
 		var menu = '<div id="menu" class="menu">';
+			menu += '<button class="accordion">Months List</button>';
 				menu += '<div id="lm" class="lig-month">';
 				for(let i=0; i<12 ;i++) {
 					if(i == thisMonth)
-						menu += '<div id="chMonth'+i+'" class="col-month col-md-1 thistxt thisbg">'+month[i]+'</div>';
+						menu += '<div id="chMonth'+i+'" class="col-month col-md-1 thistxt">'+month[i]+'</div>';
 					else
 						menu += '<div id="chMonth'+i+'" class="col-month col-md-1">'+month[i]+'</div>';
 				}
@@ -141,14 +149,29 @@ function calendar() {
 
 				pagination(i);
 				
-				if($('#getUser').val() === '')
-					gridCalendar(i);
-				else
+				if($('#getUser').length && $('#getUser').val() !== '')
 					usersDatas(i);
+				else
+					gridCalendar(i);
 			});
 		}
+
+		$('.lig-month').hide();
+
+		$('.accordion').on('click', function() {
+			if($(this).hasClass('active'))
+				$(this).removeClass('active');
+			else
+				$(this).addClass('active');
+
+			$('.lig-month').slideToggle('slow');
+		});
 	}
 
+	/* 
+		parameter: getMonth - current month
+		Previous and next month
+	*/
 	function pagination(getMonth) {
 		var pre = getMonth;
 
@@ -166,11 +189,11 @@ function calendar() {
 
 				$('#calendar .calendar').hide();
 
-				if($('#getUser').val() === '')
-					gridCalendar(pre);
-				else
+				if($('#getUser').length && $('#getUser').val() !== '')
 					usersDatas(pre);
-				console.log(pre);
+				else
+					gridCalendar(pre);
+				// console.log(pre);
 			}
 		});
 
@@ -180,15 +203,19 @@ function calendar() {
 
 				$('#calendar .calendar').hide();
 
-				if($('#getUser').val() === '')
-					gridCalendar(pre);
-				else
+				if($('#getUser').length && $('#getUser').val() !== '')
 					usersDatas(pre);
-				console.log(':'+pre);
+				else
+					gridCalendar(pre);
+				// console.log(':'+pre);
 			}
 		});
 	}
 
+	/*
+		parameter: getMonth - current month
+		Display the calendar
+	*/
 	function gridCalendar(getMonth) {
 		var n = 1;
 		var thDay = d.getDay()-1;
@@ -232,7 +259,11 @@ function calendar() {
 		$("#show #calendar").append(grid);
 	}
 
-	searchUser();
+	/* Function calls */
+
+	/* The function searchUser() can display the datas of a specific user - not used */
+	// searchUser();
+
 	titleCalendar();
 
 	menuCalendar();

@@ -1,5 +1,5 @@
-body {
-	background: #b3bae0;
+html, body {
+	background-color: #7fb4a9;
 }
 
 a {
@@ -17,11 +17,39 @@ a {
 	margin: 5em auto 2em auto;
 }
 
-#calendar .menu .lig-month {
-	display: flex;
-	flex-wrap: wrap;
+#calendar .menu .accordion {
 	background-color: #eee;
-	border: 1px solid #fff;
+	cursor: pointer;
+	padding: 10px;
+	width: 100%;
+	border: none;
+	text-align: left;
+	outline: none;
+	font-size: 15px;
+	transition: 0.4s;
+}
+
+#calendar .menu .accordion:hover {
+	background-color: #ccc;
+}
+
+#calendar .menu .accordion:after {
+	content: '\002B';
+	color: #777;
+	font-weight: bold;
+	float: right;
+	margin-left: 5px;
+}
+
+#calendar .menu .active:after {
+	content: "\2212";
+}
+
+#calendar .menu .lig-month {
+	display: none;
+	overflow: hidden;
+	transition: max-height 0.2s ease-out;
+	background-color: #eee;
 	font-weight: bold;
 }
 
@@ -36,8 +64,14 @@ a {
 	text-decoration:underline;
 }
 
+#calendar .menu .col-month:after {
+	background-color: #ddd;
+	text-decoration:underline;
+}
+
 #calendar .pagination {
-	width: 100%;
+	display: block;
+	width: 80%;
 	margin: auto;
 	text-align: center;
 	font-size: 1.5rem;
@@ -47,12 +81,14 @@ a {
 #calendar .pagination div {
 	display: inline-block;
 	cursor: pointer;
+	background-color: #eee;
 }
 
 #calendar .calendar {
 	width: 80%;
 	margin: 2em auto 0 auto;
 	background-color: #fff;
+	border: 2px solid #ddd;
 }
 
 #calendar .calendar th {
@@ -64,17 +100,20 @@ a {
 	color:red;
 }
 
-#calendar .calendar .thisbg, #calendar .menu .thisbg {
+#calendar .calendar .thisbg {
 	background-color: #ddd;
 }
 
 #calendar .calendar .blank {
 	background-color: #fff;
+	border-top: 1px solid #fff;
+	border-left: none;
+	border-right: none;
 }
 
 #calendar .calendar td {
 	width: calc(80% / 7);
-	border: 1px solid #fff;
+	border: 1px solid #7fb4a9;
 	background-color: #eee;
 	padding: 5px;
 	vertical-align: top;

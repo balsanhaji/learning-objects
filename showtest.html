@@ -1,21 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<title>Learning Objects</title>
+		<!-- JQuery -->
 		<script src="./lib/jquery-3.3.1.js" defer></script>
+		<!-- JS Functions -->
 		<script src="./src/learning-records/calendar.js" defer></script>
 		<script src="./src/learning-records/userslist.js" defer></script>
 		<script src="./src/learning-records/menu.js" defer></script>
+		<!-- JS Bootstrap JQuery UI -->
 		<script src="./lib/bootstrap-3.1.1/js/bootstrap.js" defer></script>
 		<script src="./lib/jquery-ui-1.12.1/jquery-ui.js" defer></script>
+		<!-- CSS -->
 		<link href="./lib/bootstrap-3.1.1/css/bootstrap.css" rel="stylesheet">
 		<link href="./lib/showtest/main.css" rel="stylesheet">
 		<link rel="stylesheet" href="./lib/jquery-ui-1.12.1/jquery-ui.css">
 	</head>
 	<body>
+		<!-- Navigation Bar - Bootstrap Style -->
 		<nav class="navbar navbar-default" role="navigation">
 			<div class="container-fluid">
+				<!-- Mobile Navigation -->
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 						<span class="sr-only">Toggle navigation</span>
@@ -25,6 +31,7 @@
 					</button>
 					<a class="navbar-brand" href="#">Data Structures E-Learning Power</a>
 				</div>
+				<!-- Default Menu -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 						<li class="active"><a href="#">Home</a></li>
@@ -37,6 +44,7 @@
 							</ul>
 						</li>
 					</ul>
+					<!-- Test -->
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="#">Login</a></li>
 					</ul>
@@ -44,7 +52,9 @@
 			</div>
 		</nav>
 
+		<!-- Main Container -->
 		<div class="container">
+			<!-- This div is call by JS functions -->
 			<div id="show"></div>
 		</div>
 	</body>

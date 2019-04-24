@@ -30,15 +30,16 @@ preg_match_all('/[A-Z][^A-Z]*/',$lastnames,$lresults);
 // foreach($fresults[0] as $k => $v)
 // 	echo '['.$k.'] '.$v.'<br/>';
 
-/* get last row value */
-$q = $bdd->query('SELECT id, name, firstName, lastName, email, result, `date` FROM learning_records');
-
+/* =============== */
 /* 
 	INSERT INTO request
 	name, firstName, lastName, email, result fields only are not empty
 
 	ONCE this request is executed, it can be commented
 */
+/* get last row value */
+$q = $bdd->query('SELECT id, name, firstName, lastName, email, result, `date` FROM learning_records');
+
 // $req = $bdd->prepare('INSERT INTO learning_records(name, firstName, lastName, nickName, email, loginMethod, tableOfSymbols, question, answer, feedback, result) VALUES(:name, :firstName, :lastName, :nickName, :email, :loginMethod, :toSymbols, :question, :answer, :feedback, :result)');
 
 // for($i=0;$i<10000;$i++) {
@@ -46,19 +47,17 @@ $q = $bdd->query('SELECT id, name, firstName, lastName, email, result, `date` FR
 // 	$fname = $fresults[0][rand(0,count($fresults[0])-1)];
 // 	/* get random lastname */
 // 	$lname = $lresults[0][rand(0,count($lresults[0])-1)];
-// 	$name = $fname.'.'.$lname;
 
-// 	/* get unique id for email adress */
-// 	$mailname = strtolower($name).$randUsers[$i];
+// 	$name = strtolower($fname.'.'.$lname).$randUsers[$i];
 
 // 	// print_r($req->errorInfo());
 
 // 	$req->execute(array(
-// 		  'name'		=> strtolower($name)
+// 		  'name'		=> $name
 // 		, 'firstName'	=> $fname
 // 		, 'lastName'	=> $lname
 // 		, 'nickName'	=> ''
-// 		, 'email'		=> $mailname.'@'.$maildomain[rand(0,count($maildomain)-1)]
+// 		, 'email'		=> $name.'@'.$maildomain[rand(0,count($maildomain)-1)]
 // 		, 'loginMethod'	=> ''
 // 		, 'toSymbols'	=> ''
 // 		, 'question'	=> ''
@@ -66,10 +65,9 @@ $q = $bdd->query('SELECT id, name, firstName, lastName, email, result, `date` FR
 // 		, 'feedback'	=> ''
 // 		, 'result'		=> rand(0,10)
 // 	));
-
-// 	// $id++;
 // }
- 
+
+/* =============== */
 /*
 	UPDATE request
 	date field is updated with random dates
@@ -81,7 +79,7 @@ $q = $bdd->query('SELECT id, name, firstName, lastName, email, result, `date` FR
 // $id = 8;
 
 // for($i=0;$i<10000;$i++) {
-// 	 random time 
+// 	// random time
 // 	$ndate = time() - (rand(0,60) * 24 * rand(0,60) * rand(0,60));
 // 	$timestamp = date('Y-m-d G:i:s', $ndate);
 
@@ -92,6 +90,8 @@ $q = $bdd->query('SELECT id, name, firstName, lastName, email, result, `date` FR
 
 // 	$id++;
 // }
+
+/* =============== */
 
 /* Display new entries */
 echo '<table style="border:1px solid;border-collapse:collapse">';

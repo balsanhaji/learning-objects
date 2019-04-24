@@ -6,6 +6,11 @@ a {
 	cursor: pointer;
 }
 
+#usersList .loadingmessage {
+	background: url('./ajax-loader.gif') no-repeat center;
+	height: 16px;
+}
+
 #calendar .error {
 	margin: 1rem 0 0 5rem;
 	color: #c21c1c;
@@ -76,17 +81,24 @@ a {
 	text-align: center;
 	font-size: 1.5rem;
 	text-transform: uppercase;
+	height: 3em;
+	line-height: 3em;
+	background-color: #eee;
+	border-radius:0;
 }
 
 #calendar .pagination div {
 	display: inline-block;
 	cursor: pointer;
-	background-color: #eee;
+}
+
+#calendar .pagination div:hover {
+	background-color: #ddd;
 }
 
 #calendar .calendar {
 	width: 80%;
-	margin: 2em auto 0 auto;
+	margin: 0 auto;
 	background-color: #fff;
 	border: 2px solid #ddd;
 }

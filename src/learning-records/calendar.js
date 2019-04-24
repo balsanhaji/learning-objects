@@ -41,7 +41,7 @@ function calendar() {
 			searchUser += '</div>';
 			searchUser += '<div class="error"></div><hr/>';
 
-		getUsersList(thisMonth);
+			getUsersList(thisMonth);
 
 		$("#show #calendar").append(searchUser);
 	}
@@ -52,7 +52,7 @@ function calendar() {
 	*/
 	function getUsersList(getMonth) {
 		$.ajax({
-			type:"GET",
+			type:"POST",
 			dataType:"json",
 			url: "./src/learning-records/results.php",
 			success: function(userList) {
@@ -61,13 +61,14 @@ function calendar() {
 
 				$.each(show.users, function() {				
 					$.each(this, function(k, v) {
-						if(k == 'nickName')
+						if(k == 'name')
 							usersArray.push(v);
 					});
 				});
 
 				$('#getUser').autocomplete({
-					source: usersArray
+					source: usersArray,
+					minLength:3
 				});
 
 				usersDatas(getMonth);
@@ -261,8 +262,8 @@ function calendar() {
 
 	/* Function calls */
 
-	/* The function searchUser() can display the datas of a specific user - not used */
-	// searchUser();
+	/* The function searchUser() can display the datas of a specific user from an input - not used */
+	searchUser();
 
 	titleCalendar();
 

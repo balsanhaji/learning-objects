@@ -2,28 +2,22 @@ $(function() {
 	homeDefault();
 
 	/* Links */
-	$(".navbar-nav li:first a").click(
-		function() {
+	$(".navbar-nav li:first a").click(function() {
 			homeDefault();
-		}
-	);
-	$(".navbar-nav li:nth-child(2) a").click(
-		function() {
+	});
+	$(".navbar-nav li:nth-child(2) a").click(function() {
+			$('#show').empty();
+			$('#show').append('<div id="usersList"><div class="loadingmessage"> </div></div>');
+			$('.loadingmessage').show();
 			userList();
-		}
-	);
-	$(".navbar-nav li:nth-child(3) ul li:first a").click(
-		function() {
-			// searchUser();
+	});
+	$(".navbar-nav li:nth-child(3) ul li:first a").click(function() {
 			calendar();
-		}
-	);
-	$(".navbar-nav li:nth-child(3) ul li:nth-child(2) a").click(
-		function() {
+	});
+	$(".navbar-nav li:nth-child(3) ul li:nth-child(2) a").click(function() {
 			$('#show').empty();
 			$('#show').show();
-		}
-	);
+	});
 });
 
 

@@ -13,13 +13,13 @@ if(!isset($_GET['q'])) {
 	$i = 1;
 
 	/* Users list default SQL request */
-	$req = $bdd->query("SELECT DISTINCT nickName FROM learning_records");
+	$req = $bdd->query("SELECT name, email FROM learning_records");
 
 	/* JSON Encoding */
 	echo '{"users":[ ';
 		while($datas = $req->fetch()) {
-			echo '{"id": '.$i.',';
-			echo '"nickName": "'.$datas['nickName'].'"}';
+			echo '{"name": "'.$datas['name'].'",';
+			echo '"email": "'.$datas['email'].'"}';
 
 			if($i < $req->rowCount())
 				echo ',';
@@ -37,7 +37,7 @@ else {
 	$i = 1;
 
 	/* User specific datas SQL request */
-	$raw_results = $bdd->query("SELECT * FROM learning_records WHERE nickName LIKE '".$username."'");
+	$raw_results = $bdd->query("SELECT * FROM learning_records WHERE name LIKE '".$username."'");
 
 	/* If user exists */
 	if($raw_results->rowCount() > 0) {

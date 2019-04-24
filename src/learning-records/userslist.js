@@ -1,32 +1,38 @@
 /* List of Users:learning_records */
 function userList() {
-	$('#show').empty();
-	$('#show').append('<div id="usersList"></div>');
+	var names = [], emails = [];
 
 	$.ajax({
+		type:"POST",
+		dataType:"json",
 		url: "./src/learning-records/results.php",
-		beforeSend: function(xhr) {
-			xhr.overrideMimeType("text/plain; charset=x-user-defined");
-		},
 		success: function(data) {
-			var table = '<table class="table table-striped"><thead><tr><th scope="col">#</th><th scope="col">nickName</th></tr></thead><tbody>';
-			var show = JSON.parse(data);
-			
+			var show = data;
+
 			$.each(show.users, function() {
-				table += '<tr>';
-				
 				$.each(this, function(k, v) {
-					if(k == 'id')
-						table += '<th scope="row">'+v+'</th>';
-					else
-						table += '<td>'+v+'</td>';
+					if(k == 'name')
+						names.push(v);
+					if(k == 'email')
+						emails.push(v);
 				});
-				
-				table += '</tr>';
 			});
+		
+			var table = '<table class="table table-striped table-paginate"><thead><tr><th scope="col">#</th><th scope="col">name</th><th scope="col">email</th></tr></thead><tbody>';
+
+				$.each(names, function(i, item) {
+					table += '<tr>';
+						table += '<th scope="row">'+(i+1)+'</th>';
+						table += '<td>'+item+'</td>';
+						table += '<td>'+emails[i]+'</td>';
+					table += '</tr>';
+				});
+
 			table += '</tbody></table>';
 
 			$('#show #usersList').append(table);
+			$('#show #usersList .table-paginate').dataTable();
+			$('.loadingmessage').hide();
 		}
 	});
 }

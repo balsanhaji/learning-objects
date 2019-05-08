@@ -50,13 +50,14 @@ export default class usersList {
 	getList() {
 		var name = this.names;
 		var email = this.emails;
+		var list = [];
 
 		$.ajax({
 			type:"POST",
 			dataType:"json",
 			url: "./src/learning-records/results.php",
 			success: function(data) {
-				console.log(data.users);
+				// console.log(data.users);
 				$.each(data.users, function() {
 					$.each(this, function(k, v) {
 						if(k == 'name')
@@ -66,25 +67,15 @@ export default class usersList {
 					});
 				});
 
-				this.names = name;
-				this.emails = email;
+				$.each(name, function(i, item) {
+					list.push('<p>'+item+' - '+email[i]+'</p>');
+				});
+			
+				console.log(list);
 			}
 		});
-	}
 
-	displayList() {
-		this.getList();
-		
-		l_name= this.names;
-		console.log(l_name.length);
-		var l_email= this.emails;
-		var list= [];
-
-		$.each(l_name, function(i, item) {
-			list.push('<p>'+item+' - '+l_email[i]+'</p>');
-		});
-	
-		console.log(list.length);
+		console.log(list);
 		return list;
 	}
 }

@@ -1,5 +1,4 @@
 import Calendar from './pooCalendar.js';
-// import userList from './userslist.js';
 import usersList from './userslist.js';
 
 $(function() {
@@ -20,7 +19,10 @@ $(function() {
 		$('#header').show();
 
 		$('#header h1').text('Users List');
-		$('#header #article').html(list.displayList());
+
+		console.log(list.getList());
+		$('#header #article').html(list.getDate());
+		$('#header #article').append(list.getList());
 	});
 	
 	$(".navbar-nav li:nth-child(3) ul li:first a").click(function() {

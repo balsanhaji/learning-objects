@@ -136,3 +136,44 @@ a {
 	font-size: smaller;
 	margin-bottom: 20px;
 }
+
+/* --  -- */
+
+#view #first {
+	display: block;
+	width: 150px;
+	height: 25em;
+	background-color: #fff;
+	overflow: auto;
+	padding: 10px 0 10px 10px;
+	float: left;
+}
+
+#first h4, #second h4 {
+	text-align: center;
+	margin: 0 0 20px;
+	border-bottom: 1px solid;
+	padding-bottom: 5px;
+}
+
+#first p {
+	text-align: center;
+	font-weight: bold;
+	border-left: 1px solid #ddece9;
+	border-right: 1px solid #ddece9;
+}
+	#first p:hover {
+		cursor: pointer;
+		background-color: #ddece9;
+	}
+
+#view #second {
+	display: block;
+	margin-left: 100px;
+	width: 150px;
+	height: 25em;
+	background-color: #fff;
+	overflow: auto;
+	padding: 10px 0 10px 10px;
+	float: left;
+}

@@ -74,22 +74,22 @@ $q = $bdd->query('SELECT id, name, firstName, lastName, email, result, `date` FR
 	DATE limit : From 1 month before current time until current time, hour is random
 */
 
-// $req = $bdd->prepare('UPDATE `learning_records` SET `date` = :ldate WHERE `id` >= :id');
-// /* Date is updated from the new random entries */
-// $id = 8;
+$req = $bdd->prepare('UPDATE `learning_records` SET `date` = :ldate WHERE `id` >= :id');
+/* Date is updated from the new random entries */
+$id = 8;
 
-// for($i=0;$i<10000;$i++) {
-// 	// random time
-// 	$ndate = time() - (rand(0,60) * 24 * rand(0,60) * rand(0,60));
-// 	$timestamp = date('Y-m-d G:i:s', $ndate);
+for($i=0;$i<10000;$i++) {
+	// random time
+	$ndate = time() - (rand(0,60) * 24 * rand(0,60) * rand(0,60));
+	$timestamp = date('Y-m-d G:i:s', $ndate);
 
-// 	$req->execute(array(
-// 		  'ldate' => $timestamp
-// 		, 'id'	 => $id
-// 	));
+	$req->execute(array(
+		  'ldate' => $timestamp
+		, 'id'	 => $id
+	));
 
-// 	$id++;
-// }
+	$id++;
+}
 
 /* =============== */
 

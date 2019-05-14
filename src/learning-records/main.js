@@ -1,55 +1,25 @@
-import Calendar from './pooCalendar.js';
-import usersList from './userslist.js';
-
 $(function() {
 	homeDefault();
 
 	/* Links */
 	$(".navbar-nav li:first a").click(function() {
-		$('#header').hide();
-		$('#calendar').hide();
 		homeDefault();
 	});
-	
 	$(".navbar-nav li:nth-child(2) a").click(function() {
-		var list = new usersList();
-
-		$('#show').hide();
-		$('#header *').empty();
-		$('#header').show();
-
-		$('#header h1').text('Users List');
-
-		console.log(list.getList());
-		$('#header #article').html(list.getDate());
-		$('#header #article').append(list.getList());
+		$('#show').empty();
+		$('#show').append('<div id="usersList"><div class="loadingmessage"> </div></div>');
+		$('.loadingmessage').show();
+		userList();
 	});
-	
 	$(".navbar-nav li:nth-child(3) ul li:first a").click(function() {
-		var cal = new Calendar();
-
-		$('#show').hide();
-		$('#header').show();
-
-		$('#header h1').text('2019 Calendar');
-		// $('#header #article').text(cal.getDayName()[2]);
-		$('#header #article').text(cal.getThisMonth());
+		calendar();
 	});
-
 	$(".navbar-nav li:nth-child(3) ul li:nth-child(2) a").click(function() {
 		$('#show').empty();
 		$('#show').show();
 	});
-	
 	$(".navbar-nav li:nth-child(4) a").click(function() {
-		function titleTeacher() { $("#show #teacher").append('<h1>Teacher view</h1>') };
-
-		$('#show').empty();
-		$('#show').append('<div id="teacher"></div>');
-		
-		titleTeacher();
-
-		$('#show #teacher').append(nick.getResults());
+		view();
 	});
 });
 
@@ -57,6 +27,6 @@ $(function() {
 /*  */
 function homeDefault() {
 	var header = '<div class="page-header"><h1>Track student progress</h1></div><p>Use the menu to access informations.</p>';
-	$("#show").show();
-	$("#show").html(header);
+	$("#show").empty();
+	$("#show").append(header);
 }

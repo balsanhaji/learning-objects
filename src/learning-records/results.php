@@ -7,8 +7,10 @@ catch(Exception $e) {
 	die('Erreur : '.$e->getMessage());
 }
 
+$q = ($_SERVER['QUERY_STRING']) ? $_GET['q'] : null;
+
 /* If sending or receiving datas */
-if(!isset($_GET['q'])) {
+if($q == null) {
 	/* Sending datas to Ajax method : POST request */
 	$i = 1;
 
@@ -32,33 +34,85 @@ if(!isset($_GET['q'])) {
 	$req->closeCursor();
 }
 else {
-	/* Receiving username from Ajax method : GET request */
-	$username = $_GET['q'];
-	$i = 1;
+	if($q != 'teacher') {
+		/* Receiving username from Ajax method : GET request */
+		$username = $q;
+		$i = 1;
 
-	/* User specific datas SQL request */
-	$raw_results = $bdd->query("SELECT * FROM learning_records WHERE name LIKE '".$username."'");
+		/* User specific datas SQL request */
+		$raw_results = $bdd->query("SELECT name, `date`, answer, result FROM learning_records WHERE name LIKE '".$username."'");
 
-	/* If user exists */
-	if($raw_results->rowCount() > 0) {
-		/* JSON Encoding */
-		echo '{"records":[ ';
-			while($results = $raw_results->fetch()) {
-				echo '{"year": '.date("Y", strtotime($results['date'])).',';
-				echo '"day": '.date("j", strtotime($results['date'])).',';
-				echo '"month": '.date("n", strtotime($results['date'])).',';
-				echo '"answer": "'.$results['answer'].'",';
-				echo '"result": '.$results['result'].'}';
+		/* If user exists */
+		if($raw_results->rowCount() > 0) {
+			/* JSON Encoding */
+			echo '{"records":[ ';
+				while($results = $raw_results->fetch()) {
+					echo '{"year": '.date("Y", strtotime($results['date'])).',';
+					echo '"day": '.date("j", strtotime($results['date'])).',';
+					echo '"month": '.date("n", strtotime($results['date'])).',';
+					echo '"answer": "'.$results['answer'].'",';
+					echo '"result": '.$results['result'].'}';
 
-				if($i < $raw_results->rowCount())
-					echo ',';
+					if($i < $raw_results->rowCount())
+						echo ',';
 
-				$i++;
-			}
-		echo ']}';
+					$i++;
+				}
+			echo ']}';
+		}
+
+		/* Closing connection */
+		$raw_results->closeCursor();
 	}
 
-	/* Closing connection */
-	$raw_results->closeCursor();
+	if($q == 'teacher') {
+		if(isset($_GET['d'])) {
+			$d = $_GET['d'];
+			$i = 1;
+
+			/* User specific datas SQL request */
+			$raw_results = $bdd->query("SELECT DISTINCT `name` FROM `learning_records` WHERE CAST(`date` AS date) = '".$d."' ORDER BY `name` ASC");
+
+			if($raw_results->rowCount() > 0) {
+				/* JSON Encoding */
+				echo '{"users":[ ';
+					while($results = $raw_results->fetch()) {
+						echo '{"user": "'.$results[0].'"}';
+
+						if($i < $raw_results->rowCount())
+							echo ',';
+
+						$i++;
+					}
+				echo ']}';
+			}
+
+			/* Closing connection */
+			$raw_results->closeCursor();
+		}
+		else {
+			$i = 1;
+
+			/* User specific datas SQL request */
+			$raw_results = $bdd->query("SELECT DISTINCT CAST(`date` AS date) FROM learning_records ORDER BY CAST(`date` AS date) ASC");
+
+			if($raw_results->rowCount() > 0) {
+				/* JSON Encoding */
+				echo '{"dates":[ ';
+					while($results = $raw_results->fetch()) {
+						echo '{"date": "'.$results[0].'"}';
+
+						if($i < $raw_results->rowCount())
+							echo ',';
+
+						$i++;
+					}
+				echo ']}';
+			}
+
+			/* Closing connection */
+			$raw_results->closeCursor();
+		}
+	}	
 }
 ?>

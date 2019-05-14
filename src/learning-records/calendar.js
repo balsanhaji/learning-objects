@@ -26,7 +26,7 @@ function calendar() {
 		month[10] = "November";
 		month[11] = "December";
 
-	function titleCalendar() { $("#show #calendar").append('<h1>'+d.getFullYear()+' Calendar</h1>') };
+	function titleCalendar() { $("#show #calendar").append('<div class="page-header"><h1>'+d.getFullYear()+' Calendar</h1></div>') };
 
 	$('#show').empty();
 	$('#show').append('<div id="calendar"></div>');
@@ -309,10 +309,10 @@ function calendar() {
 
 	/* Function calls */
 
+	titleCalendar();
+
 	/* The function searchUser() can display the datas of a specific user from an input - not used */
 	// searchUser();
-
-	titleCalendar();
 
 	menuCalendar();
 	pagination(thisMonth);

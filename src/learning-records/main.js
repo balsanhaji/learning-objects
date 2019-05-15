@@ -21,6 +21,9 @@ $(function() {
 	$(".navbar-nav li:nth-child(4) a").click(function() {
 		view();
 	});
+	$(".navbar-nav li:nth-child(5) a").click(function() {
+		sview();
+	});
 });
 
 

@@ -139,41 +139,63 @@ a {
 
 /* --  -- */
 
-#view #first {
-	display: block;
-	width: 150px;
-	height: 25em;
-	background-color: #fff;
-	overflow: auto;
-	padding: 10px 0 10px 10px;
-	float: left;
+#view #box-f {
+	display: flex;
+	justify-content: space-between;
 }
 
-#first h4, #second h4 {
+
+.box {
+	width: 250px;
+	height: 25em;
+	background-color: #fff;
+	padding: 10px 0 10px 10px;
+}
+
+.box:last {
+	margin-right:0;
+}
+
+.box h4, .bbox h4 {
 	text-align: center;
-	margin: 0 0 20px;
+	margin: 0 10px 20px 0px;
 	border-bottom: 1px solid;
 	padding-bottom: 5px;
 }
 
-#first p {
+.box h6 {
+	text-align: center;
+	margin-right: 10px;
+}
+
+#first {
+	overflow: auto;
+	height: 85%;
+}
+
+#second, #third {
+	overflow: auto;
+	height: 80%;
+}
+
+#first p, #second p {
 	text-align: center;
 	font-weight: bold;
 	border-left: 1px solid #ddece9;
 	border-right: 1px solid #ddece9;
 }
-	#first p:hover {
+	#first p:hover, #second p:hover {
 		cursor: pointer;
 		background-color: #ddece9;
 	}
 
-#view #second {
-	display: block;
-	margin-left: 100px;
-	width: 150px;
-	height: 25em;
+#second p {
+	text-align: left;
+}
+
+.bbox {
+	height: 8em;
 	background-color: #fff;
-	overflow: auto;
 	padding: 10px 0 10px 10px;
-	float: left;
+	margin-top: 5em;
 }

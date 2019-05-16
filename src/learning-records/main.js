@@ -19,9 +19,11 @@ $(function() {
 		$('#show').show();
 	});
 	$(".navbar-nav li:nth-child(4) a").click(function() {
+		$('#show').empty();
 		view();
 	});
 	$(".navbar-nav li:nth-child(5) a").click(function() {
+		$('#show').empty();
 		sview();
 	});
 });

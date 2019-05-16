@@ -15,7 +15,7 @@ function randomGen($min, $max, $quantity) {
 }
 
 /* generate random numbers for unique ids (emails) */
-$randUsers = randomGen(10000,30000,10000);
+// $randUsers = randomGen(10000,30000,10000);
 
 $firstnames = 'AbigailAlexandraAlisonAmandaAmeliaAmyAndreaAngelaAnnaAnneAudreyAvaBellaBernadetteCarolCarolineCarolynChloeClaireDeirdreDianaDianeDonnaDorothyElizabethEllaEmilyEmmaFaithFelicityFionaGabrielleGraceHannahHeatherIreneJanJaneJasmineJenniferJessicaJoanJoanneJuliaKarenKatherineKimberlyKylieLaurenLeahLillianLilyLisaMadeleineMariaMaryMeganMelanieMichelleMollyNatalieNicolaOliviaPenelopePippaRachelRebeccaRoseRuthSallySamanthaSarahSoniaSophieStephanieSueTheresaTraceyUnaVanessaVictoriaVirginiaWandaWendyYvonneZoeAdamAdrianAlanAlexanderAndrewAnthonyAustinBenjaminBlakeBorisBrandonBrianCameronCarlCharlesChristianChristopherColinConnorDanDavidDominicDylanEdwardEricEvanFrankGavinGordonHarryIanIsaacJackJacobJakeJamesJasonJoeJohnJonathanJosephJoshuaJulianJustinKeithKevinLeonardLiamLucasLukeMattMaxMichaelNathanNeilNicholasOliverOwenPaulPeterPhilPiersRichardRobertRyanSamSeanSebastianSimonStephenStevenStewartThomasTimTrevorVictorWarrenWilliam';
 
@@ -78,8 +78,8 @@ $req = $bdd->prepare('UPDATE `learning_records` SET `date` = :ldate WHERE `id` >
 /* Date is updated from the new random entries */
 $id = 8;
 
-for($i=0;$i<10000;$i++) {
-	// random time
+for($i=0;$i<1000;$i++) {
+	/* random time */
 	$ndate = time() - (rand(0,60) * 24 * rand(0,60) * rand(0,60));
 	$timestamp = date('Y-m-d G:i:s', $ndate);
 

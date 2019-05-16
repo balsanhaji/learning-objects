@@ -1,5 +1,6 @@
 html, body {
 	background-color: #7fb4a9;
+	padding-bottom: 50px;
 }
 
 a {
@@ -150,6 +151,7 @@ a {
 	height: 25em;
 	background-color: #fff;
 	padding: 10px 0 10px 10px;
+	border: 1px solid #0a5d4c;
 }
 
 .box:last {
@@ -194,8 +196,9 @@ a {
 }
 
 .bbox {
-	height: 8em;
+	/*height: 8em;*/
 	background-color: #fff;
 	padding: 10px 0 10px 10px;
 	margin-top: 5em;
+	border: 1px solid #0a5d4c;
 }

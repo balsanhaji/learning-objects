@@ -71,13 +71,39 @@ else {
 			$i = 1;
 
 			/* User specific datas SQL request */
-			$raw_results = $bdd->query("SELECT DISTINCT `name` FROM `learning_records` WHERE CAST(`date` AS date) = '".$d."' ORDER BY `name` ASC");
+			$raw_results = $bdd->query("SELECT DISTINCT name FROM learning_records WHERE CAST(`date` AS date) = '".$d."' ORDER BY name ASC");
 
 			if($raw_results->rowCount() > 0) {
 				/* JSON Encoding */
 				echo '{"users":[ ';
 					while($results = $raw_results->fetch()) {
 						echo '{"user": "'.$results[0].'"}';
+
+						if($i < $raw_results->rowCount())
+							echo ',';
+
+						$i++;
+					}
+				echo ']}';
+			}
+
+			/* Closing connection */
+			$raw_results->closeCursor();
+		}
+		else if(isset($_GET['u']) AND isset($_GET['da']) AND isset($_GET['db'])) {
+			$user = $_GET['u'];
+			$da = $_GET['da'];
+			$db = $_GET['db'];
+			$i = 1;
+
+			/* User specific datas SQL request */
+			$raw_results = $bdd->query("SELECT result FROM learning_records WHERE (CAST(`date` AS date) BETWEEN '".$da."' AND '".$db."') AND name = '".$user."'");
+
+			if($raw_results->rowCount() > 0) {
+				/* JSON Encoding */
+				echo '{"results":[ ';
+					while($results = $raw_results->fetch()) {
+						echo '{"result": "'.$results[0].'"}';
 
 						if($i < $raw_results->rowCount())
 							echo ',';

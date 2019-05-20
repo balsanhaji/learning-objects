@@ -85,7 +85,7 @@ function view() {
 				$(".r_user").each(function(index) {
 					$(this).on("click", function() {
 						$('#h62').html($(this).text());
-						periodList($(this).text());
+						periodList(d,$(this).text());
 					});
 				});
 			}
@@ -95,7 +95,7 @@ function view() {
 	/*
 		periodList
 	*/
-	function periodList(u) {
+	function periodList(d,u) {
 		console.log('?'+u);
 
 		var choose = '<p class="r_period"><input type="radio" id="per0" name="per" value="0"> By day</p>\n';
@@ -108,7 +108,7 @@ function view() {
 			if($('#per0').is(':checked'))
 				exercises('1');
 			if($('#per1').is(':checked'))
-				exercises('2');
+				exercises(7,d,u);
 			if($('#per2').is(':checked'))
 				exercises('3');
 		});
@@ -117,83 +117,78 @@ function view() {
 	/*
 		exercises
 	*/
-	function exercises(n) {
-		$('#fourth').html(n+'<div class="chart-container"><canvas id="myChart"></canvas></div>\n');
-	
-		var ctx = $('#myChart');
-		var myChart = new Chart(ctx, {
-			type: 'bar',
-			data: {
-				labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-				datasets: [{
-					label: '# of Votes',
-					data: [12, 19, 3, 5, 2, 3],
-					backgroundColor: [
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(255, 206, 86, 0.2)',
-					'rgba(75, 192, 192, 0.2)',
-					'rgba(153, 102, 255, 0.2)',
-					'rgba(255, 159, 64, 0.2)'
-					],
-					borderColor: [
-					'rgba(255, 99, 132, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(75, 192, 192, 1)',
-					'rgba(153, 102, 255, 1)',
-					'rgba(255, 159, 64, 1)'
-					],
-					borderWidth: 1
-				}]
-			},
-			options: {
-				scales: {
-					yAxes: [{
-						ticks: {
-							beginAtZero: true
+	function exercises(n,d,u) {
+		$('#fourth').html('<div class="chart-container"><canvas id="myChart"></canvas></div>\n');
+		
+		let curr = new Date(d);
+		let week = [];
+
+		console.log(':'+n);
+		for(let i = 1; i <= n; i++) {
+			let first = (curr.getDay() == 0) ? curr.getDate() - 6 : curr.getDate() - curr.getDay() + i;
+			let day = new Date(curr.setDate(first)).toISOString().slice(0, 10);
+			week.push(day);
+		}
+
+		console.log(d+':'+d.substr(8, 2)+':'+week[week.length-1]);
+		$.ajax({
+			type:"GET",
+			dataType:"json",
+			url: "./src/learning-records/results.php?q=teacher&u="+u+"&da="+week[0]+"&db="+week[week.length-1],
+			success: function(results) {
+				var res = results;
+				console.log(res);
+				var val = [];
+
+				$.each(res.results, function() {
+					$.each(this, function(k, v) {
+						if(k == 'result')
+							val.push(v);
+					});
+				});
+
+				var ctx = $('#myChart');
+				var myChart = new Chart(ctx, {
+					type: 'bar',
+					data: {
+						labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Gray'],
+						datasets: [{
+							label: 'Progress '+week[0]+' from to '+week[week.length-1],
+							data: [val[0], val[1], val[2], val[3], val[4], val[5], val[6]],
+							backgroundColor: [
+							'rgba(255, 99, 132, 0.2)',
+							'rgba(54, 162, 235, 0.2)',
+							'rgba(255, 206, 86, 0.2)',
+							'rgba(75, 192, 192, 0.2)',
+							'rgba(153, 102, 255, 0.2)',
+							'rgba(255, 159, 64, 0.2)',
+							'rgba(128, 128, 128, 0.2)'
+							],
+							borderColor: [
+							'rgba(255, 99, 132, 1)',
+							'rgba(54, 162, 235, 1)',
+							'rgba(255, 206, 86, 1)',
+							'rgba(75, 192, 192, 1)',
+							'rgba(153, 102, 255, 1)',
+							'rgba(255, 159, 64, 1)',
+							'rgba(128, 128, 128, 1)'
+							],
+							borderWidth: 1
+						}]
+					},
+					options: {
+						scales: {
+							yAxes: [{
+								ticks: {
+									beginAtZero: true
+								}
+							}]
 						}
-					}]
-				}
+					}
+				});
 			}
 		});
 	}
-
-
-		// $.ajax({
-		// 	type:"GET",
-		// 	dataType:"json",
-		// 	url: "./src/learning-records/results.php?q=teacher&d="+u,
-		// 	success: function(period) {
-		// 		// console.log(dates);
-		// 		var lperiod = period;
-		// 		var r_period = [];
-
-		// 		// console.log(ldates);
-		// 		$.each(lperiod.period, function() {
-		// 			$.each(this, function(k, v) {
-		// 				if(k == 'period')
-		// 					r_period.push(v);
-		// 			});
-		// 		});
-				
-		// 		// console.log(r_dates);
-		// 		$('#third p').remove();
-		// 		$.each(r_period, function(i, item) {
-		// 			$('#third').append('<p class="r_period"><input type="checkbox" name="day" value="By day"></p>\n');
-		// 			$('#third').append('<p class="r_period"><input type="checkbox" name="week" value="By week"></p>\n');
-		// 			$('#third').append('<p class="r_period"><input type="checkbox" name="month" value="By month"></p>\n');
-		// 		});
-
-		// 		$(".r_period").each(function(index) {
-		// 			$(this).on("click", function() {
-		// 				$('#h63').html($(this).text());
-		// 				usersList($(this).text());
-		// 			});
-		// 		});
-		// 	}
-		// });
-
 
 	function box() {
 		$('#view').append('<div id="box-f"></div>');

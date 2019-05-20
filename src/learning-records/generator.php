@@ -15,7 +15,7 @@ function randomGen($min, $max, $quantity) {
 }
 
 /* generate random numbers for unique ids (emails) */
-// $randUsers = randomGen(10000,30000,10000);
+// $randUsers = randomGen(10000,30000,1000);
 
 $firstnames = 'AbigailAlexandraAlisonAmandaAmeliaAmyAndreaAngelaAnnaAnneAudreyAvaBellaBernadetteCarolCarolineCarolynChloeClaireDeirdreDianaDianeDonnaDorothyElizabethEllaEmilyEmmaFaithFelicityFionaGabrielleGraceHannahHeatherIreneJanJaneJasmineJenniferJessicaJoanJoanneJuliaKarenKatherineKimberlyKylieLaurenLeahLillianLilyLisaMadeleineMariaMaryMeganMelanieMichelleMollyNatalieNicolaOliviaPenelopePippaRachelRebeccaRoseRuthSallySamanthaSarahSoniaSophieStephanieSueTheresaTraceyUnaVanessaVictoriaVirginiaWandaWendyYvonneZoeAdamAdrianAlanAlexanderAndrewAnthonyAustinBenjaminBlakeBorisBrandonBrianCameronCarlCharlesChristianChristopherColinConnorDanDavidDominicDylanEdwardEricEvanFrankGavinGordonHarryIanIsaacJackJacobJakeJamesJasonJoeJohnJonathanJosephJoshuaJulianJustinKeithKevinLeonardLiamLucasLukeMattMaxMichaelNathanNeilNicholasOliverOwenPaulPeterPhilPiersRichardRobertRyanSamSeanSebastianSimonStephenStevenStewartThomasTimTrevorVictorWarrenWilliam';
 
@@ -42,22 +42,30 @@ $q = $bdd->query('SELECT id, name, firstName, lastName, email, result, `date` FR
 
 // $req = $bdd->prepare('INSERT INTO learning_records(name, firstName, lastName, nickName, email, loginMethod, tableOfSymbols, question, answer, feedback, result) VALUES(:name, :firstName, :lastName, :nickName, :email, :loginMethod, :toSymbols, :question, :answer, :feedback, :result)');
 
-// for($i=0;$i<10000;$i++) {
+// $fname = [];
+// $lname = [];
+// $name = [];
+
+// for($i=0;$i<1000;$i++) {
 // 	/* get random firstname */
-// 	$fname = $fresults[0][rand(0,count($fresults[0])-1)];
+// 	$fname[$i] = $fresults[0][rand(0,count($fresults[0])-1)];
 // 	/* get random lastname */
-// 	$lname = $lresults[0][rand(0,count($lresults[0])-1)];
+// 	$lname[$i] = $lresults[0][rand(0,count($lresults[0])-1)];
 
-// 	$name = strtolower($fname.'.'.$lname).$randUsers[$i];
+// 	$name[$i] = strtolower($fname[$i].'.'.$lname[$i]).$randUsers[$i];
+// }
 
+// $j = 0;
+
+// for($i=0;$i<10000;$i++) {
 // 	// print_r($req->errorInfo());
 
 // 	$req->execute(array(
-// 		  'name'		=> $name
-// 		, 'firstName'	=> $fname
-// 		, 'lastName'	=> $lname
+// 		  'name'		=> $name[$j]
+// 		, 'firstName'	=> $fname[$j]
+// 		, 'lastName'	=> $lname[$j]
 // 		, 'nickName'	=> ''
-// 		, 'email'		=> $name.'@'.$maildomain[rand(0,count($maildomain)-1)]
+// 		, 'email'		=> $name[$j].'@'.$maildomain[rand(0,count($maildomain)-1)]
 // 		, 'loginMethod'	=> ''
 // 		, 'toSymbols'	=> ''
 // 		, 'question'	=> ''
@@ -65,6 +73,11 @@ $q = $bdd->query('SELECT id, name, firstName, lastName, email, result, `date` FR
 // 		, 'feedback'	=> ''
 // 		, 'result'		=> rand(0,10)
 // 	));
+
+// 	if($j != 999)
+// 		$j++;
+// 	else
+// 		$j = 0;
 // }
 
 /* =============== */
@@ -74,22 +87,21 @@ $q = $bdd->query('SELECT id, name, firstName, lastName, email, result, `date` FR
 	DATE limit : From 1 month before current time until current time, hour is random
 */
 
-$req = $bdd->prepare('UPDATE `learning_records` SET `date` = :ldate WHERE `id` >= :id');
-/* Date is updated from the new random entries */
-$id = 8;
+// $req = $bdd->prepare('UPDATE `learning_records` SET `date` = :ldate WHERE `id` >= :id');
+// /* Date is updated from the new random entries */
+// $id = 8;
 
-for($i=0;$i<1000;$i++) {
-	/* random time */
-	$ndate = time() - (rand(0,60) * 24 * rand(0,60) * rand(0,60));
-	$timestamp = date('Y-m-d G:i:s', $ndate);
+// for($i=0;$i<10000;$i++) {
+// 	$ndate = time() - (rand(0,60) * 24 * rand(0,60) * rand(0,60));
+// 	$timestamp = date('Y-m-d G:i:s', $ndate);
 
-	$req->execute(array(
-		  'ldate' => $timestamp
-		, 'id'	 => $id
-	));
+// 	$req->execute(array(
+// 		  'ldate' => $timestamp
+// 		, 'id'	 => $id
+// 	));
 
-	$id++;
-}
+// 	$id++;
+// }
 
 /* =============== */
 

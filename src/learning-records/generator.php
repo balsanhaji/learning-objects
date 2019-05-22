@@ -15,7 +15,14 @@ function randomGen($min, $max, $quantity) {
 }
 
 /* generate random numbers for unique ids (emails) */
-// $randUsers = randomGen(10000,30000,1000);
+$randUsers = randomGen(10000,30000,1000);
+
+// sort($randUsers);
+
+// foreach($randUsers as $k)
+// 	echo $k.'<br/>';
+
+// echo count($randUsers);
 
 $firstnames = 'AbigailAlexandraAlisonAmandaAmeliaAmyAndreaAngelaAnnaAnneAudreyAvaBellaBernadetteCarolCarolineCarolynChloeClaireDeirdreDianaDianeDonnaDorothyElizabethEllaEmilyEmmaFaithFelicityFionaGabrielleGraceHannahHeatherIreneJanJaneJasmineJenniferJessicaJoanJoanneJuliaKarenKatherineKimberlyKylieLaurenLeahLillianLilyLisaMadeleineMariaMaryMeganMelanieMichelleMollyNatalieNicolaOliviaPenelopePippaRachelRebeccaRoseRuthSallySamanthaSarahSoniaSophieStephanieSueTheresaTraceyUnaVanessaVictoriaVirginiaWandaWendyYvonneZoeAdamAdrianAlanAlexanderAndrewAnthonyAustinBenjaminBlakeBorisBrandonBrianCameronCarlCharlesChristianChristopherColinConnorDanDavidDominicDylanEdwardEricEvanFrankGavinGordonHarryIanIsaacJackJacobJakeJamesJasonJoeJohnJonathanJosephJoshuaJulianJustinKeithKevinLeonardLiamLucasLukeMattMaxMichaelNathanNeilNicholasOliverOwenPaulPeterPhilPiersRichardRobertRyanSamSeanSebastianSimonStephenStevenStewartThomasTimTrevorVictorWarrenWilliam';
 
@@ -45,6 +52,7 @@ $q = $bdd->query('SELECT id, name, firstName, lastName, email, result, `date` FR
 // $fname = [];
 // $lname = [];
 // $name = [];
+// $email = [];
 
 // for($i=0;$i<1000;$i++) {
 // 	/* get random firstname */
@@ -53,6 +61,8 @@ $q = $bdd->query('SELECT id, name, firstName, lastName, email, result, `date` FR
 // 	$lname[$i] = $lresults[0][rand(0,count($lresults[0])-1)];
 
 // 	$name[$i] = strtolower($fname[$i].'.'.$lname[$i]).$randUsers[$i];
+
+// 	$email[$i] = $name[$i].'@'.$maildomain[rand(0,count($maildomain)-1)];
 // }
 
 // $j = 0;
@@ -65,7 +75,7 @@ $q = $bdd->query('SELECT id, name, firstName, lastName, email, result, `date` FR
 // 		, 'firstName'	=> $fname[$j]
 // 		, 'lastName'	=> $lname[$j]
 // 		, 'nickName'	=> ''
-// 		, 'email'		=> $name[$j].'@'.$maildomain[rand(0,count($maildomain)-1)]
+// 		, 'email'		=> $email[$j]
 // 		, 'loginMethod'	=> ''
 // 		, 'toSymbols'	=> ''
 // 		, 'question'	=> ''

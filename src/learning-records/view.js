@@ -48,7 +48,7 @@ function view() {
 					});
 				});
 
-				console.log(r_dates.length);
+				// console.log(r_dates.length);
 			}
 		});
 	}
@@ -57,7 +57,7 @@ function view() {
 		usersList
 	*/
 	function usersList(d) {
-		console.log('?'+d);
+		// console.log('?'+d);
 
 		$.ajax({
 			type:"GET",
@@ -96,7 +96,7 @@ function view() {
 		periodList
 	*/
 	function periodList(d,u) {
-		console.log('?'+u);
+		// console.log('?'+u);
 
 		var choose = '<p class="r_period"><input type="radio" id="per0" name="per" value="0"> By day</p>\n';
 			choose+= '<p class="r_period"><input type="radio" id="per1" name="per" value="1"> By week</p>\n';
@@ -123,14 +123,14 @@ function view() {
 		let curr = new Date(d);
 		let week = [];
 
-		console.log(':'+n);
+		// console.log(':'+n);
 		for(let i = 1; i <= n; i++) {
 			let first = (curr.getDay() == 0) ? curr.getDate() - 6 : curr.getDate() - curr.getDay() + i;
 			let day = new Date(curr.setDate(first)).toISOString().slice(0, 10);
 			week.push(day);
 		}
 
-		console.log(d+':'+d.substr(8, 2)+':'+week[week.length-1]);
+		// console.log(d+':'+d.substr(8, 2)+':'+week[week.length-1]);
 		$.ajax({
 			type:"GET",
 			dataType:"json",
@@ -138,23 +138,68 @@ function view() {
 			success: function(results) {
 				var res = results;
 				console.log(res);
-				var val = [];
+				var rt_date = [], r_date = [], rt_val = [], r_val = [];
+				var num = 0;
+
+				for(let i=0; i<7; i++) {
+					r_date[i] = 0;
+					r_val[i] = 0;
+				}
 
 				$.each(res.results, function() {
 					$.each(this, function(k, v) {
-						if(k == 'result')
-							val.push(v);
+						if(k == 'year') {
+							for(let i=0; i<week.length; i++) {
+								if(v == week[i]) {
+									r_date[i] = v;
+									num = i;
+								}
+							}
+						}
+						if(k == 'result') {
+							r_val[num] = v;
+						}
 					});
 				});
 
+				// for(let i=0; i<rt_date.length; i++) {
+				// 	for(let j=0; j<week.length; j++) {
+				// 		if(rt_date[i] != week[j])
+				// 			r_date[j] = 0;
+				// 		else
+				// 			r_date[j] = rt_date[i];
+				// 	}
+				// }
+
+				// for(let i=0; i<rt_val.length; i++) {
+				// 	for(let j=0; j<r_date.length; j++) {
+				// 		if(r_date[j] == 0)
+				// 			r_val.push(0);
+				// 		else
+				// 			r_val.push(rt_val[i]);
+				// 	}
+				// }
+
+				console.log(';'+rt_date);
+
+				// for(let i=0; i<week.length; i++) {
+				// 	if(num == i)
+				// 		num = i;
+				// }
+
+
+
+				// console.log(week);
+				console.log(r_date);
+				// console.log(r_val);
 				var ctx = $('#myChart');
 				var myChart = new Chart(ctx, {
 					type: 'bar',
 					data: {
-						labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Gray'],
+						labels: [week[0], week[1], week[2], week[3], week[4], week[5], week[6]],
 						datasets: [{
-							label: 'Progress '+week[0]+' from to '+week[week.length-1],
-							data: [val[0], val[1], val[2], val[3], val[4], val[5], val[6]],
+							label: 'Progress '+week[0]+' from to '+week[6],
+							data: [r_val[0], r_val[1], r_val[2], r_val[3], r_val[4], r_val[5], r_val[6]],
 							backgroundColor: [
 							'rgba(255, 99, 132, 0.2)',
 							'rgba(54, 162, 235, 0.2)',

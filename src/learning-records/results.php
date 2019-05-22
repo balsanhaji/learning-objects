@@ -40,17 +40,14 @@ else {
 		$i = 1;
 
 		/* User specific datas SQL request */
-		$raw_results = $bdd->query("SELECT name, `date`, answer, result FROM learning_records WHERE name LIKE '".$username."'");
+		$raw_results = $bdd->query("SELECT name, CAST(`date` AS DATE) AS date_cast, result FROM learning_records WHERE name = '".$username."'");
 
 		/* If user exists */
 		if($raw_results->rowCount() > 0) {
 			/* JSON Encoding */
 			echo '{"records":[ ';
 				while($results = $raw_results->fetch()) {
-					echo '{"year": '.date("Y", strtotime($results['date'])).',';
-					echo '"day": '.date("j", strtotime($results['date'])).',';
-					echo '"month": '.date("n", strtotime($results['date'])).',';
-					echo '"answer": "'.$results['answer'].'",';
+					echo '{"year": "'.$results['date_cast'].'",';
 					echo '"result": '.$results['result'].'}';
 
 					if($i < $raw_results->rowCount())
@@ -71,13 +68,13 @@ else {
 			$i = 1;
 
 			/* User specific datas SQL request */
-			$raw_results = $bdd->query("SELECT DISTINCT name FROM learning_records WHERE CAST(`date` AS date) = '".$d."' ORDER BY name ASC");
+			$raw_results = $bdd->query("SELECT DISTINCT name FROM learning_records WHERE CAST(`date` AS DATE) = '".$d."' ORDER BY name ASC");
 
 			if($raw_results->rowCount() > 0) {
 				/* JSON Encoding */
 				echo '{"users":[ ';
 					while($results = $raw_results->fetch()) {
-						echo '{"user": "'.$results[0].'"}';
+						echo '{"user": "'.$results['name'].'"}';
 
 						if($i < $raw_results->rowCount())
 							echo ',';
@@ -97,13 +94,14 @@ else {
 			$i = 1;
 
 			/* User specific datas SQL request */
-			$raw_results = $bdd->query("SELECT result FROM learning_records WHERE (CAST(`date` AS date) BETWEEN '".$da."' AND '".$db."') AND name = '".$user."'");
+			$raw_results = $bdd->query("SELECT result, CAST(`date` AS DATE) AS date_cast FROM learning_records WHERE (CAST(`date` AS DATE) BETWEEN '".$da."' AND '".$db."') AND name = '".$user."'");
 
 			if($raw_results->rowCount() > 0) {
 				/* JSON Encoding */
 				echo '{"results":[ ';
 					while($results = $raw_results->fetch()) {
-						echo '{"result": "'.$results[0].'"}';
+						echo '{"year": "'.$results['date_cast'].'",';
+						echo '"result": '.$results['result'].'}';
 
 						if($i < $raw_results->rowCount())
 							echo ',';
@@ -120,13 +118,13 @@ else {
 			$i = 1;
 
 			/* User specific datas SQL request */
-			$raw_results = $bdd->query("SELECT DISTINCT CAST(`date` AS date) FROM learning_records ORDER BY CAST(`date` AS date) ASC");
+			$raw_results = $bdd->query("SELECT DISTINCT CAST(`date` AS DATE) AS date_cast FROM learning_records ORDER BY CAST(`date` AS DATE) ASC");
 
 			if($raw_results->rowCount() > 0) {
 				/* JSON Encoding */
 				echo '{"dates":[ ';
 					while($results = $raw_results->fetch()) {
-						echo '{"date": "'.$results[0].'"}';
+						echo '{"date": "'.$results['date_cast'].'"}';
 
 						if($i < $raw_results->rowCount())
 							echo ',';

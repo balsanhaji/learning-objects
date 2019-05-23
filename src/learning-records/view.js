@@ -56,13 +56,13 @@ function view() {
 	/*
 		usersList
 	*/
-	function usersList(d) {
+	function usersList(date) {
 		// console.log('?'+d);
 
 		$.ajax({
 			type:"GET",
 			dataType:"json",
-			url: "./src/learning-records/results.php?q=teacher&d="+d,
+			url: "./src/learning-records/results.php?q=teacher&d="+date,
 			success: function(users) {
 				// console.log(dates);
 				var lusers = users;
@@ -85,7 +85,7 @@ function view() {
 				$(".r_user").each(function(index) {
 					$(this).on("click", function() {
 						$('#h62').html($(this).text());
-						periodList(d,$(this).text());
+						periodList(date,$(this).text());
 					});
 				});
 			}
@@ -95,7 +95,7 @@ function view() {
 	/*
 		periodList
 	*/
-	function periodList(d,u) {
+	function periodList(date,user) {
 		// console.log('?'+u);
 
 		var choose = '<p class="r_period"><input type="radio" id="per0" name="per" value="0"> By day</p>\n';
@@ -106,42 +106,56 @@ function view() {
 
 		$('.r_period').click(function() {
 			if($('#per0').is(':checked'))
-				exercises('1');
+				exercises(0,date,user);
 			if($('#per1').is(':checked'))
-				exercises(7,d,u);
+				exercises(1,date,user);
 			if($('#per2').is(':checked'))
-				exercises('3');
+				exercises(2,date,user);
 		});
 	}
 
 	/*
 		exercises
 	*/
-	function exercises(n,d,u) {
+	function exercises(view,date,user) {
 		$('#fourth').html('<div class="chart-container"><canvas id="myChart"></canvas></div>\n');
 		
-		let curr = new Date(d);
-		let week = [];
+		// console.log(date);
+		let d = new Date(date);
+		let lastDay = new Date(d.getFullYear(), d.getMonth()+1, 0);
+		
+		let gap = [];
 
-		// console.log(':'+n);
-		for(let i = 1; i <= n; i++) {
-			let first = (curr.getDay() == 0) ? curr.getDate() - 6 : curr.getDate() - curr.getDay() + i;
-			let day = new Date(curr.setDate(first)).toISOString().slice(0, 10);
-			week.push(day);
+		if(view == 0)
+			gap.push(date);
+		if(view == 1) {
+			for(let i = 1; i <= 7; i++) {
+				let first = (d.getDay() == 0) ? d.getDate() - 6 : d.getDate() - d.getDay() + i;
+				let day = new Date(d.setDate(first)).toISOString().slice(0, 10);
+				gap.push(day);
+			}
+		}
+		if(view == 2) {
+			for(let i = 1; i <= lastDay.getDate(); i++) {
+				let day = (i < 10) ? '0'+i : i;
+				gap.push(d.getFullYear()+'-'+date.substr(5,2)+'-'+day);
+			}
 		}
 
+		// console.log(date.substr(5, 2));
+		// console.log(gap);
 		// console.log(d+':'+d.substr(8, 2)+':'+week[week.length-1]);
 		$.ajax({
 			type:"GET",
 			dataType:"json",
-			url: "./src/learning-records/results.php?q=teacher&u="+u+"&da="+week[0]+"&db="+week[week.length-1],
+			url: "./src/learning-records/results.php?q=teacher&u="+user+"&da="+gap[0]+"&db="+gap[gap.length-1],
 			success: function(results) {
 				var res = results;
-				console.log(res);
+				// console.log(res);
 				var rt_date = [], r_date = [], rt_val = [], r_val = [];
 				var num = 0;
 
-				for(let i=0; i<7; i++) {
+				for(let i=0; i<gap.length; i++) {
 					r_date[i] = 0;
 					r_val[i] = 0;
 				}
@@ -149,8 +163,8 @@ function view() {
 				$.each(res.results, function() {
 					$.each(this, function(k, v) {
 						if(k == 'year') {
-							for(let i=0; i<week.length; i++) {
-								if(v == week[i]) {
+							for(let i=0; i<gap.length; i++) {
+								if(v == gap[i]) {
 									r_date[i] = v;
 									num = i;
 								}
@@ -162,62 +176,53 @@ function view() {
 					});
 				});
 
-				// for(let i=0; i<rt_date.length; i++) {
-				// 	for(let j=0; j<week.length; j++) {
-				// 		if(rt_date[i] != week[j])
-				// 			r_date[j] = 0;
-				// 		else
-				// 			r_date[j] = rt_date[i];
-				// 	}
-				// }
-
-				// for(let i=0; i<rt_val.length; i++) {
-				// 	for(let j=0; j<r_date.length; j++) {
-				// 		if(r_date[j] == 0)
-				// 			r_val.push(0);
-				// 		else
-				// 			r_val.push(rt_val[i]);
-				// 	}
-				// }
-
-				console.log(';'+rt_date);
-
-				// for(let i=0; i<week.length; i++) {
-				// 	if(num == i)
-				// 		num = i;
-				// }
-
-
-
 				// console.log(week);
-				console.log(r_date);
+				// console.log(r_date);
 				// console.log(r_val);
+
+				function getRandomColor() {
+					var letters = '0123456789ABCDEF';
+					var color = '#';
+					for(var i = 0; i < 6; i++)
+						color += letters[Math.floor(Math.random() * 16)];
+
+					return color;
+				}
+
+				var label = [], datas = [];
+				var bgColor = [], bdColor = [];
+
+				for(let i=0; i<gap.length; i++)
+					label.push(gap[i]);
+
+				if(view == 1) {
+					for(let i=0; i<7; i++) {
+						bgColor.push(getRandomColor());
+						bdColor.push(getRandomColor());
+					}
+				}
+				if(view == 2) {
+					for(let i=0; i<lastDay.getDate(); i++) {
+						bgColor.push(getRandomColor());
+						bdColor.push(getRandomColor());
+					}
+				}
+
+				// console.log(label);
+				// console.log(datas);
+
+				console.log(bgColor);
+
 				var ctx = $('#myChart');
 				var myChart = new Chart(ctx, {
 					type: 'bar',
 					data: {
-						labels: [week[0], week[1], week[2], week[3], week[4], week[5], week[6]],
+						labels: label,
 						datasets: [{
-							label: 'Progress '+week[0]+' from to '+week[6],
-							data: [r_val[0], r_val[1], r_val[2], r_val[3], r_val[4], r_val[5], r_val[6]],
-							backgroundColor: [
-							'rgba(255, 99, 132, 0.2)',
-							'rgba(54, 162, 235, 0.2)',
-							'rgba(255, 206, 86, 0.2)',
-							'rgba(75, 192, 192, 0.2)',
-							'rgba(153, 102, 255, 0.2)',
-							'rgba(255, 159, 64, 0.2)',
-							'rgba(128, 128, 128, 0.2)'
-							],
-							borderColor: [
-							'rgba(255, 99, 132, 1)',
-							'rgba(54, 162, 235, 1)',
-							'rgba(255, 206, 86, 1)',
-							'rgba(75, 192, 192, 1)',
-							'rgba(153, 102, 255, 1)',
-							'rgba(255, 159, 64, 1)',
-							'rgba(128, 128, 128, 1)'
-							],
+							label: 'Progress '+gap[0]+' from to '+gap[gap.length-1],
+							data: r_val,
+							backgroundColor: bgColor,
+							borderColor: bdColor,
 							borderWidth: 1
 						}]
 					},

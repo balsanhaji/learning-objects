@@ -123,8 +123,8 @@ function view() {
 		// console.log(date);
 		let d = new Date(date);
 		let lastDay = new Date(d.getFullYear(), d.getMonth()+1, 0);
-		
 		let gap = [];
+
 
 		if(view == 0)
 			gap.push(date);
@@ -143,7 +143,7 @@ function view() {
 		}
 
 		// console.log(date.substr(5, 2));
-		// console.log(gap);
+		console.log(gap);
 		// console.log(d+':'+d.substr(8, 2)+':'+week[week.length-1]);
 		$.ajax({
 			type:"GET",
@@ -160,29 +160,41 @@ function view() {
 					r_val[i] = 0;
 				}
 
-				$.each(res.results, function() {
-					$.each(this, function(k, v) {
-						if(k == 'year') {
-							for(let i=0; i<gap.length; i++) {
-								if(v == gap[i]) {
-									r_date[i] = v;
-									num = i;
+				if(gap.length > 1) {
+					$.each(res.results, function() {
+						$.each(this, function(k, v) {
+							if(k == 'year') {
+								for(let i=0; i<gap.length; i++) {
+									r_date[i] = gap[i];
+									if(v == gap[i]) {
+										num = i;
+									}
 								}
 							}
-						}
-						if(k == 'result') {
-							r_val[num] = v;
-						}
+							if(k == 'result')
+								r_val[num] = v;
+						});
 					});
-				});
+				}
+
+				if(gap.length == 1) {
+					$.each(res.results, function() {
+						$.each(this, function(k, v) {
+							if(k == 'result') {
+								r_date[num] = v;
+								r_val[num] = v;
+								num++;
+							}
+						});
+					});
+				}
 
 				// console.log(week);
-				// console.log(r_date);
+				console.log(r_date);
 				// console.log(r_val);
 
 				function getRandomColor() {
-					var letters = '0123456789ABCDEF';
-					var color = '#';
+					var letters = '0123456789ABCDEF', color = '#';
 					for(var i = 0; i < 6; i++)
 						color += letters[Math.floor(Math.random() * 16)];
 
@@ -192,26 +204,15 @@ function view() {
 				var label = [], datas = [];
 				var bgColor = [], bdColor = [];
 
-				for(let i=0; i<gap.length; i++)
-					label.push(gap[i]);
-
-				if(view == 1) {
-					for(let i=0; i<7; i++) {
-						bgColor.push(getRandomColor());
-						bdColor.push(getRandomColor());
-					}
-				}
-				if(view == 2) {
-					for(let i=0; i<lastDay.getDate(); i++) {
-						bgColor.push(getRandomColor());
-						bdColor.push(getRandomColor());
-					}
+				for(let i=0; i<r_date.length; i++) {
+					label.push(r_date[i]);
+					bgColor.push(getRandomColor());
+					bdColor.push(getRandomColor());
 				}
 
 				// console.log(label);
 				// console.log(datas);
-
-				console.log(bgColor);
+				// console.log(bgColor);
 
 				var ctx = $('#myChart');
 				var myChart = new Chart(ctx, {

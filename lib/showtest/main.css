@@ -145,6 +145,11 @@ a {
 	justify-content: space-between;
 }
 
+#sview #box-f {
+	display: flex;
+	justify-content: space-around;
+}
+
 
 .box {
 	width: 250px;

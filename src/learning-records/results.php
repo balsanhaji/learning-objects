@@ -40,7 +40,7 @@ else {
 		$i = 1;
 
 		/* User specific datas SQL request */
-		$raw_results = $bdd->query("SELECT name, CAST(`date` AS DATE) AS date_cast, result FROM learning_records WHERE name = '".$username."'");
+		$raw_results = $bdd->query("SELECT CAST(`date` AS DATE) AS date_cast, SUM(result) AS total_res FROM learning_records WHERE name = '".$username."' GROUP BY CAST(`date` AS DATE) ORDER BY CAST(`date` AS DATE)");
 
 		/* If user exists */
 		if($raw_results->rowCount() > 0) {
@@ -48,7 +48,7 @@ else {
 			echo '{"records":[ ';
 				while($results = $raw_results->fetch()) {
 					echo '{"year": "'.$results['date_cast'].'",';
-					echo '"result": '.$results['result'].'}';
+					echo '"result": '.$results['total_res'].'}';
 
 					if($i < $raw_results->rowCount())
 						echo ',';
@@ -94,7 +94,10 @@ else {
 			$i = 1;
 
 			/* User specific datas SQL request */
-			$raw_results = $bdd->query("SELECT CAST(`date` AS DATE) AS date_cast, SUM(result) AS total_res FROM learning_records WHERE (`date` BETWEEN '".$da." 00:00:00' AND '".$db." 23:59:59') AND name = '".$user."' GROUP BY CAST(`date` AS DATE) ORDER BY 1");
+			if($da == $db)
+				$raw_results = $bdd->query("SELECT CAST(`date` AS DATE) AS date_cast, `result` AS total_res FROM learning_records WHERE CAST(`date` AS DATE) = '".$da."' AND name = '".$user."' ORDER BY 1");
+			else
+				$raw_results = $bdd->query("SELECT CAST(`date` AS DATE) AS date_cast, SUM(result) AS total_res FROM learning_records WHERE (`date` BETWEEN '".$da." 00:00:00' AND '".$db." 23:59:59') AND name = '".$user."' GROUP BY CAST(`date` AS DATE) ORDER BY 1");
 
 			if($raw_results->rowCount() > 0) {
 				/* JSON Encoding */

@@ -15,7 +15,7 @@ if($q == null) {
 	$i = 1;
 
 	/* Users list default SQL request */
-	$req = $bdd->query("SELECT name, email FROM learning_records");
+	$req = $bdd->query("SELECT DISTINCT name, email FROM learning_records");
 
 	/* JSON Encoding */
 	echo '{"users":[ ';

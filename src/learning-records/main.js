@@ -11,19 +11,13 @@ $(function() {
 		$('.loadingmessage').show();
 		userList();
 	});
-	$(".navbar-nav li:nth-child(3) ul li:first a").click(function() {
+	$(".navbar-nav li:nth-child(3) a").click(function() {
 		calendar();
 	});
-	$(".navbar-nav li:nth-child(3) ul li:nth-child(2) a").click(function() {
-		$('#show').empty();
-		$('#show').show();
-	});
-	$(".navbar-nav li:nth-child(4) a").click(function() {
-		$('#show').empty();
+	$(".navbar-nav li:nth-child(4) ul li:first a").click(function() {
 		view();
 	});
-	$(".navbar-nav li:nth-child(5) a").click(function() {
-		$('#show').empty();
+	$(".navbar-nav li:nth-child(4) ul li:nth-child(2) a").click(function() {
 		sview();
 	});
 });

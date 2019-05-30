@@ -1,5 +1,5 @@
 html, body {
-	background-color: #7fb4a9;
+	background: linear-gradient(#e7e7e7, #f8f8f8) no-repeat;
 	padding-bottom: 50px;
 }
 
@@ -12,15 +12,28 @@ a {
 	height: 16px;
 }
 
+#usersList .table-paginate {
+	border: 1px solid #ddd;
+}
+
+#usersList .table-paginate .even {
+	background-color: #d6dfe0;
+}
+
 #calendar .error {
 	margin: 1rem 0 0 5rem;
 	color: #c21c1c;
 	font-size: 12px;
 }
 
+#show .page-header, #calendar hr {
+	border-bottom: 1px solid #ddd;
+}
+
 #calendar .menu {
 	width: 80%;
 	margin: 5em auto 2em auto;
+	border: 2px solid #ddd;
 }
 
 #calendar .menu .accordion {
@@ -78,7 +91,7 @@ a {
 #calendar .pagination {
 	display: block;
 	width: 80%;
-	margin: auto;
+	margin: 0 auto 5px auto;
 	text-align: center;
 	font-size: 1.5rem;
 	text-transform: uppercase;
@@ -86,6 +99,7 @@ a {
 	line-height: 3em;
 	background-color: #eee;
 	border-radius:0;
+	border: 2px solid #ddd;
 }
 
 #calendar .pagination div {
@@ -95,6 +109,7 @@ a {
 
 #calendar .pagination div:hover {
 	background-color: #ddd;
+	height: 100%;
 }
 
 #calendar .calendar {

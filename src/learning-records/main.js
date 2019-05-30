@@ -6,18 +6,26 @@ $(function() {
 		homeDefault();
 	});
 	$(".navbar-nav li:nth-child(2) a").click(function() {
+		$(".navbar-nav li").removeClass("active");
+		$(this).addClass('active');
 		$('#show').empty();
 		$('#show').append('<div id="usersList"><div class="loadingmessage"> </div></div>');
 		$('.loadingmessage').show();
 		userList();
 	});
 	$(".navbar-nav li:nth-child(3) a").click(function() {
+		$(".navbar-nav li").removeClass("active");
+		$(this).addClass('active');
 		calendar();
 	});
 	$(".navbar-nav li:nth-child(4) ul li:first a").click(function() {
+		$(".navbar-nav li").removeClass("active");
+		$(this).addClass('active');
 		view();
 	});
 	$(".navbar-nav li:nth-child(4) ul li:nth-child(2) a").click(function() {
+		$(".navbar-nav li").removeClass("active");
+		$(this).addClass('active');
 		sview();
 	});
 });

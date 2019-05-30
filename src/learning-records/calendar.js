@@ -122,51 +122,52 @@ function calendar() {
 	}
 
 	/*
+		TEST - NOT FUNCTIONAL
 		parameter: getMonth - current month
 		Display the results of the connected user in the calendar
 	*/
-	function userDatas(getMonth, username) {
-		$.ajax({
-			type:"GET",
-			dataType:"json",
-			url: "./src/learning-records/results.php?q="+username,
-			success: function(userInfo) {
-				var record = userInfo;
-				var r_year = [], r_month = [], r_day = [], r_answer = [], r_result = [];
+	// function userDatas(getMonth, username) {
+	// 	$.ajax({
+	// 		type:"GET",
+	// 		dataType:"json",
+	// 		url: "./src/learning-records/results.php?q="+username,
+	// 		success: function(userInfo) {
+	// 			var record = userInfo;
+	// 			var r_year = [], r_month = [], r_day = [], r_answer = [], r_result = [];
 
-				$.each(record.records, function() {
-					$.each(this, function(k, v) {
-						if(k == 'year')
-							r_year.push(v);
-						if(k == 'month')
-							r_month.push(v);
-						if(k == 'day')
-							r_day.push(v);
-						if(k == 'answer')
-							r_answer.push(v);
-						if(k == 'result')
-							r_result.push(v);
-					});
-				});
+	// 			$.each(record.records, function() {
+	// 				$.each(this, function(k, v) {
+	// 					if(k == 'year')
+	// 						r_year.push(v);
+	// 					if(k == 'month')
+	// 						r_month.push(v);
+	// 					if(k == 'day')
+	// 						r_day.push(v);
+	// 					if(k == 'answer')
+	// 						r_answer.push(v);
+	// 					if(k == 'result')
+	// 						r_result.push(v);
+	// 				});
+	// 			});
 
-				$('#calendar .calendar').hide();
+	// 			$('#calendar .calendar').hide();
 				
-				// console.log('r_result: '+r_result.length);
-				gridCalendar(getMonth);
-				$.each(r_month, function(i, item) {
-					if((item-1) == getMonth) {
-						var dis = '<p><a class="seer'+i+'">See the results</a></p>';
-						$('#calendar .calendar #userdatas'+r_day[i]).append(dis);
-						// console.log('i'+i);
-						$('.seer'+i).click(function() {
-							var al = 'Result: '+r_result[i]+'\n\nAnswer: \n'+r_answer[i];
-							alert(al);
-						});
-					}
-				});
-			}
-		});
-	}
+	// 			// console.log('r_result: '+r_result.length);
+	// 			gridCalendar(getMonth);
+	// 			$.each(r_month, function(i, item) {
+	// 				if((item-1) == getMonth) {
+	// 					var dis = '<p><a class="seer'+i+'">See the results</a></p>';
+	// 					$('#calendar .calendar #userdatas'+r_day[i]).append(dis);
+	// 					// console.log('i'+i);
+	// 					$('.seer'+i).click(function() {
+	// 						var al = 'Result: '+r_result[i]+'\n\nAnswer: \n'+r_answer[i];
+	// 						alert(al);
+	// 					});
+	// 				}
+	// 			});
+	// 		}
+	// 	});
+	// }
 
 	/* Display all the months */
 	function menuCalendar() {

@@ -244,7 +244,9 @@ function view() {
 	function box() {
 		$('#view').append('<div id="box-f"></div>');
 		$('#box-f').append('<div class="box"><h4>DATES</h4><div id="first"></div></div>');
+		$('#box-f').append('<i class="arrow right"></i>');
 		$('#box-f').append('<div class="box"><h4>USERS</h4><h6 id="h61"></h6><div id="second"></div></div>');
+		$('#box-f').append('<i class="arrow right"></i>');
 		$('#box-f').append('<div class="box"><h4>PERIODS</h4><h6 id="h62"></h6><div id="third"></div></div>');
 		$('#view').append('<div class="bbox"><h4>EXERCISES</h4><h6 id="h63"></h6><div id="fourth"></div></div>');
 	}

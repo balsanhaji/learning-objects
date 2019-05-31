@@ -220,7 +220,7 @@ function calendar() {
 
 		var page = '<div id="pagination" class="row pagination">';
 			page += '<div class="col-md-4 previous"><</div>';
-			page += ' <span class="col-md-4">'+month[pre]+'</span> ';
+			page += ' <span class="col-md-4 actual">'+month[pre]+'</span> ';
 			page += '<div class="col-md-4 next">></div>';
 			page += '</div>';
 
@@ -306,8 +306,10 @@ function calendar() {
 
 	titleCalendar();
 
-	/* The function searchUser() can display the datas of a specific user from an input - not used */
-	searchUser();
+	/*	The function searchUser() can display the datas of a specific user from an input
+		Comment if not used
+	*/
+	// searchUser();
 
 	menuCalendar();
 	pagination(thisMonth);

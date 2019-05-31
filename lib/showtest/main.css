@@ -37,7 +37,7 @@ a {
 }
 
 #calendar .menu .accordion {
-	background-color: #eee;
+	background-color: #fff;
 	cursor: pointer;
 	padding: 10px;
 	width: 100%;
@@ -97,18 +97,24 @@ a {
 	text-transform: uppercase;
 	height: 3em;
 	line-height: 3em;
-	background-color: #eee;
 	border-radius:0;
 	border: 2px solid #ddd;
 }
 
 #calendar .pagination div {
+	background-color: #ddd;
 	display: inline-block;
 	cursor: pointer;
+	height: 100%;
 }
 
 #calendar .pagination div:hover {
-	background-color: #ddd;
+	background-color: #eee;
+	height: 100%;
+}
+
+#calendar .pagination span {
+	background-color: #fff;
 	height: 100%;
 }
 
@@ -158,13 +164,38 @@ a {
 #view #box-f {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 }
 
 #sview #box-f {
 	display: flex;
 	justify-content: space-around;
+	align-items: center;
 }
 
+#view i, #sview i {
+	border: solid black;
+	border-width: 0 1px 1px 0;
+	display: inline-block;
+	padding: 25px;
+	margin-left: -25px;
+}
+	#view .right, #sview .right {
+		transform: rotate(-45deg);
+		-webkit-transform: rotate(-45deg);
+	}
+
+/*#sview i {
+	border: solid black;
+	border-width: 0 1px 1px 0;
+	display: inline-block;
+	padding: 25px;
+	margin-left: -25px;
+}
+	#sview .right {
+		transform: rotate(-45deg);
+		-webkit-transform: rotate(-45deg);
+	}*/
 
 .box {
 	width: 250px;

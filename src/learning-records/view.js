@@ -119,15 +119,19 @@ function view() {
 	*/
 	function exercises(view,date,user) {
 		$('#fourth').html('<div class="chart-container"><canvas id="myChart"></canvas></div>\n');
+		$('.star').html('* The chart may be empty if the result is null (0)\n');
 		
 		// console.log(date);
 		let d = new Date(date);
+		// last day of the month
 		let lastDay = new Date(d.getFullYear(), d.getMonth()+1, 0);
 		let gap = [];
 
 
+		// by day
 		if(view == 0)
 			gap.push(date);
+		// by week
 		if(view == 1) {
 			for(let i = 1; i <= 7; i++) {
 				let first = (d.getDay() == 0) ? d.getDate() - 6 : d.getDate() - d.getDay() + i;
@@ -135,6 +139,7 @@ function view() {
 				gap.push(day);
 			}
 		}
+		// by month
 		if(view == 2) {
 			for(let i = 1; i <= lastDay.getDate(); i++) {
 				let day = (i < 10) ? '0'+i : i;
@@ -143,35 +148,40 @@ function view() {
 		}
 
 		// console.log(date.substr(5, 2));
-		console.log(gap);
+		// console.log(gap);
 		// console.log(d+':'+d.substr(8, 2)+':'+week[week.length-1]);
+
 		$.ajax({
 			type:"GET",
 			dataType:"json",
 			url: "./src/learning-records/results.php?q=teacher&u="+user+"&da="+gap[0]+"&db="+gap[gap.length-1],
 			success: function(results) {
 				var res = results;
-				// console.log(res);
-				var rt_date = [], r_date = [], rt_val = [], r_val = [];
+				var r_val = [];
 				var num = 0;
 
-				for(let i=0; i<gap.length; i++) {
-					r_date[i] = 0;
+				// initialize the array
+				for(let i=0; i<gap.length; i++)
 					r_val[i] = 0;
-				}
 
+				// get the results and the matching dates
 				if(gap.length > 1) {
+					// results from JSON [key:value] >> [date:value],[result:value]
 					$.each(res.results, function() {
 						$.each(this, function(k, v) {
-							if(k == 'year') {
+							// if the key match the date
+							if(k == 'date') {
+								/*	
+									loop to verify if the value date matches the gap date
+									in that case, the correspondant gap key is stored
+								*/
 								for(let i=0; i<gap.length; i++) {
-									r_date[i] = gap[i];
-									if(v == gap[i]) {
+									if(v == gap[i])
 										num = i;
-									}
 								}
 							}
 							if(k == 'result')
+								// the stored gap key is used to store the result value in the same key
 								r_val[num] = v;
 						});
 					});
@@ -181,7 +191,6 @@ function view() {
 					$.each(res.results, function() {
 						$.each(this, function(k, v) {
 							if(k == 'result') {
-								r_date[num] = v;
 								r_val[num] = v;
 								num++;
 							}
@@ -189,8 +198,7 @@ function view() {
 					});
 				}
 
-				// console.log(week);
-				console.log(r_date);
+				// console.log(gap);
 				// console.log(r_val);
 
 				function getRandomColor() {
@@ -201,26 +209,22 @@ function view() {
 					return color;
 				}
 
-				var label = [], datas = [];
 				var bgColor = [], bdColor = [];
 
-				for(let i=0; i<r_date.length; i++) {
-					label.push(r_date[i]);
+				for(let i=0; i<gap.length; i++) {
 					bgColor.push(getRandomColor());
 					bdColor.push(getRandomColor());
 				}
 
-				// console.log(label);
-				// console.log(datas);
 				// console.log(bgColor);
 
 				var ctx = $('#myChart');
 				var myChart = new Chart(ctx, {
 					type: 'bar',
 					data: {
-						labels: label,
+						labels: gap,
 						datasets: [{
-							label: 'Progress '+gap[0]+' from to '+gap[gap.length-1],
+							label: 'Progress '+gap[0]+' from to '+gap[gap.length-1]+'*',
 							data: r_val,
 							backgroundColor: bgColor,
 							borderColor: bdColor,
@@ -248,7 +252,7 @@ function view() {
 		$('#box-f').append('<div class="box"><h4>USERS</h4><h6 id="h61"></h6><div id="second"></div></div>');
 		$('#box-f').append('<i class="arrow right"></i>');
 		$('#box-f').append('<div class="box"><h4>PERIODS</h4><h6 id="h62"></h6><div id="third"></div></div>');
-		$('#view').append('<div class="bbox"><h4>EXERCISES</h4><h6 id="h63"></h6><div id="fourth"></div></div>');
+		$('#view').append('<div class="bbox"><h4>EXERCISES</h4><h6 id="h63"></h6><div id="fourth"></div><div class="star"></div></div>');
 	}
 
 	box();

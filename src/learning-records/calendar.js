@@ -67,7 +67,9 @@ function calendar() {
 				});
 
 				$('#getUser').autocomplete({
+					// array of users get from Ajax call
 					source: usersArray,
+					// At least 3 characters to display the results
 					minLength:3
 				});
 
@@ -105,69 +107,29 @@ function calendar() {
 
 					// console.log('r_result: '+r_result.length);
 					gridCalendar(getMonth);
+
+					// looping the results in the calendar
 					$.each(r_year, function(i, item) {
+						// if the month of the result equals the selected month
 						if((item.substr(5,2)-1) == getMonth) {
+							// the link who display the results
 							var dis = '<p><a class="seer'+i+'">See the results</a></p>';
+
+							// display the link
 							$('#calendar .calendar #userdatas'+item.substr(8,2)).append(dis);
-							// console.log('i'+i);
+
+							// when clicking on the link, show an alert
 							$('.seer'+i).click(function() {
 								var al = 'Result: '+r_result[i];
 								alert(al);
 							});
 						}
 					});
+
 				}
 			});
 		}).change();
 	}
-
-	/*
-		TEST - NOT FUNCTIONAL
-		parameter: getMonth - current month
-		Display the results of the connected user in the calendar
-	*/
-	// function userDatas(getMonth, username) {
-	// 	$.ajax({
-	// 		type:"GET",
-	// 		dataType:"json",
-	// 		url: "./src/learning-records/results.php?q="+username,
-	// 		success: function(userInfo) {
-	// 			var record = userInfo;
-	// 			var r_year = [], r_month = [], r_day = [], r_answer = [], r_result = [];
-
-	// 			$.each(record.records, function() {
-	// 				$.each(this, function(k, v) {
-	// 					if(k == 'year')
-	// 						r_year.push(v);
-	// 					if(k == 'month')
-	// 						r_month.push(v);
-	// 					if(k == 'day')
-	// 						r_day.push(v);
-	// 					if(k == 'answer')
-	// 						r_answer.push(v);
-	// 					if(k == 'result')
-	// 						r_result.push(v);
-	// 				});
-	// 			});
-
-	// 			$('#calendar .calendar').hide();
-				
-	// 			// console.log('r_result: '+r_result.length);
-	// 			gridCalendar(getMonth);
-	// 			$.each(r_month, function(i, item) {
-	// 				if((item-1) == getMonth) {
-	// 					var dis = '<p><a class="seer'+i+'">See the results</a></p>';
-	// 					$('#calendar .calendar #userdatas'+r_day[i]).append(dis);
-	// 					// console.log('i'+i);
-	// 					$('.seer'+i).click(function() {
-	// 						var al = 'Result: '+r_result[i]+'\n\nAnswer: \n'+r_answer[i];
-	// 						alert(al);
-	// 					});
-	// 				}
-	// 			});
-	// 		}
-	// 	});
-	// }
 
 	/* Display all the months */
 	function menuCalendar() {
@@ -261,15 +223,22 @@ function calendar() {
 	*/
 	function gridCalendar(getMonth) {
 		var n = 1;
+		// get the number of the week-1 for a match with the loop count
 		var thDay = d.getDay()-1;
+		// get the day of the month
 		var tdDay = d.getDate();
-
+		// get the first day of the month from the parameter
 		var firstDay = new Date(d.getFullYear(), getMonth, 1);
+		// get the last day of the month from the parameter
 		var lastDay = new Date(d.getFullYear(), getMonth+1, 0);
+		// number of the week starts Sunday (0), so let's make it a 7
 		var k = (firstDay.getDay() == 0) ? 7 : firstDay.getDay();
 
+		// display the calendar as a table
 		var	grid = '<table class="calendar"><thead><tr>';
+			// first loop for columns from Monday to Sunday
 			for(var i=0; i<7 ;i++) {
+				// if it is the current day, make it red
 				if(i == thDay && getMonth == thisMonth)
 					grid += '<th scope="col" class="thistxt">'+day[i]+'</th>';
 				else
@@ -277,16 +246,19 @@ function calendar() {
 			}
 			grid += '</tr></thead><tbody>';
 
-			// console.log(k);
+			// second loop for the lines displaying the days from the 01 to 30/31
 			for(var i=0; i<6 ;i++) {
 				grid += '<tr>';
+				/* first loop in a loop for the columns */
 				for(var j=1; j<8 && n<=lastDay.getDate() ;j++) {
 					if(j>=k) {
+						// if it is the current day, make it red
 						if(n == tdDay && getMonth == thisMonth)
 							grid += '<td class="thisbg">';
 						else
 							grid += '<td>';
 							grid += '<span class="nbday">'+n+'</span>';
+							// add a div for the link to see the results
 							grid += '<div id="userdatas'+n+'"></div>';
 						grid += '</td>';
 						n++;

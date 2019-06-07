@@ -72,12 +72,12 @@ function sview() {
 	*/
 	function exercises(view,date,user) {
 		$('#fourth').html('<div class="chart-container"><canvas id="myChart"></canvas></div>\n');
+		$('.star').html('* The chart may be empty if the result is null (0)\n');
 		
 		// console.log(date);
 		let d = new Date(date);
 		let lastDay = new Date(d.getFullYear(), d.getMonth()+1, 0);
 		let gap = [];
-
 
 		if(view == 0)
 			gap.push(date);
@@ -105,23 +105,19 @@ function sview() {
 			success: function(results) {
 				var res = results;
 				// console.log(res);
-				var rt_date = [], r_date = [], rt_val = [], r_val = [];
+				var r_date = [], r_val = [];
 				var num = 0;
 
-				for(let i=0; i<gap.length; i++) {
-					r_date[i] = 0;
+				for(let i=0; i<gap.length; i++)
 					r_val[i] = 0;
-				}
 
 				if(gap.length > 1) {
 					$.each(res.results, function() {
 						$.each(this, function(k, v) {
-							if(k == 'year') {
+							if(k == 'date') {
 								for(let i=0; i<gap.length; i++) {
-									r_date[i] = gap[i];
-									if(v == gap[i]) {
+									if(v == gap[i])
 										num = i;
-									}
 								}
 							}
 							if(k == 'result')
@@ -134,7 +130,6 @@ function sview() {
 					$.each(res.results, function() {
 						$.each(this, function(k, v) {
 							if(k == 'result') {
-								r_date[num] = v;
 								r_val[num] = v;
 								num++;
 							}
@@ -142,8 +137,6 @@ function sview() {
 					});
 				}
 
-				// console.log(week);
-				console.log(r_date);
 				// console.log(r_val);
 
 				function getRandomColor() {
@@ -154,26 +147,22 @@ function sview() {
 					return color;
 				}
 
-				var label = [], datas = [];
 				var bgColor = [], bdColor = [];
 
-				for(let i=0; i<r_date.length; i++) {
-					label.push(r_date[i]);
+				for(let i=0; i<gap.length; i++) {
 					bgColor.push(getRandomColor());
 					bdColor.push(getRandomColor());
 				}
 
-				// console.log(label);
-				// console.log(datas);
 				// console.log(bgColor);
 
 				var ctx = $('#myChart');
 				var myChart = new Chart(ctx, {
 					type: 'bar',
 					data: {
-						labels: label,
+						labels: gap,
 						datasets: [{
-							label: 'Progress '+gap[0]+' from to '+gap[gap.length-1],
+							label: 'Progress '+gap[0]+' from to '+gap[gap.length-1]+'*',
 							data: r_val,
 							backgroundColor: bgColor,
 							borderColor: bdColor,
@@ -199,7 +188,7 @@ function sview() {
 		$('#box-f').append('<div class="box"><h4>DATES</h4><h6 id="h64"></h6><div id="first"></div></div>');
 		$('#box-f').append('<i class="arrow right"></i>');
 		$('#box-f').append('<div class="box"><h4>PERIODS</h4><h6 id="h62"></h6><div id="third"></div></div>');
-		$('#sview').append('<div class="bbox"><h4>EXERCISES</h4><h6 id="h63"></h6><div id="fourth"></div></div>');
+		$('#sview').append('<div class="bbox"><h4>EXERCISES</h4><h6 id="h63"></h6><div id="fourth"></div><div class="star"></div></div>');
 	}
 
 	box();

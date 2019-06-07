@@ -18,7 +18,9 @@ function userList() {
 				});
 			});
 		
-			var table = '<table class="table table-striped table-paginate"><thead><tr><th scope="col">#</th><th scope="col">name</th><th scope="col">email</th></tr></thead><tbody>';
+			var table = '<table class="table table-striped table-paginate"><thead><tr>';
+				table+= '<th scope="col">#</th><th scope="col">name</th><th scope="col">email</th>';
+				table+= '</tr></thead><tbody>';
 
 				$.each(names, function(i, item) {
 					table += '<tr>';

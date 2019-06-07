@@ -95,15 +95,24 @@ else {
 
 			/* User specific datas SQL request */
 			if($da == $db)
+				/*
+					if it is the view by day
+					select all the results for the selected day
+				*/
 				$raw_results = $bdd->query("SELECT CAST(`date` AS DATE) AS date_cast, `result` AS total_res FROM learning_records WHERE CAST(`date` AS DATE) = '".$da."' AND name = '".$user."' ORDER BY 1");
 			else
+				/*
+					if it is the view by week or month
+					select the sum of the results grouped by date between the selected dates
+				*/
 				$raw_results = $bdd->query("SELECT CAST(`date` AS DATE) AS date_cast, SUM(result) AS total_res FROM learning_records WHERE (`date` BETWEEN '".$da." 00:00:00' AND '".$db." 23:59:59') AND name = '".$user."' GROUP BY CAST(`date` AS DATE) ORDER BY 1");
 
+			// display the results for the Ajax call
 			if($raw_results->rowCount() > 0) {
 				/* JSON Encoding */
 				echo '{"results":[ ';
 					while($results = $raw_results->fetch()) {
-						echo '{"year": "'.$results['date_cast'].'",';
+						echo '{"date": "'.$results['date_cast'].'",';
 						echo '"result": '.$results['total_res'].'}';
 
 						if($i < $raw_results->rowCount())
